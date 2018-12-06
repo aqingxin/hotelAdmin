@@ -1,0 +1,13 @@
+* {
+  margin: 0;
+  padding: 0;  
+}
+.el-form-item__label {
+    width: 51px !important;
+}
+.el-form-item__content {
+    margin-left: 51px !important;
+}
+.login-btn {
+    width: 100%;
+}
