@@ -2,24 +2,26 @@
   <div id="login">
     <div class="login-wrap">
       <div class="login-wrap-left">
-
+        <img src="../assets/images/login-left.jpg" alt="login">
       </div>
       <div class="login-wrap-right">
-        <h3>Hotel Admin</h3>
+        <img class="login-logo" src="../assets/images/logo.png" alt="">
+        <!-- <h3>Hotel Admin</h3> -->
         <div class="login-wrap-form">
           <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-            <el-form-item label="账号" prop="name">
-              <el-input v-model="ruleForm.name"></el-input>
+            <el-form-item  prop="name">
+              <el-input v-model="ruleForm.name" placeholder="请输入用户名"></el-input>
             </el-form-item>
-            <el-form-item label="密码" prop="password">
-              <el-input type="password" v-model="ruleForm.password"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-checkbox>记住我</el-checkbox>
+            <el-form-item prop="password">
+              <el-input type="password" v-model="ruleForm.password" placeholder="请输入密码"></el-input>
             </el-form-item>
               <div class="login-btn-div" @click="login">
                 <el-button class="login-btn" type="primary" :loading="true" >登录</el-button>
               </div>
+            <el-form-item class="login-operation">
+              <el-checkbox>记住我</el-checkbox>
+              <span class="forget-password">忘记密码</span>
+            </el-form-item>
           </el-form>
         </div>
       </div>
@@ -65,7 +67,7 @@ export default {
     position: relative;
     width: 100%;
     height: 100%;
-    /* background: lightblue; */
+    background: #F1F2F7;
   }
   .login-wrap {
     position: absolute;
@@ -77,10 +79,14 @@ export default {
     width: 800px;
     height: 400px;
     background: #fff;
-    border: 1px  solid #cfcfcf;
+    /* border: 1px  solid #cfcfcf; */
   }
   .login-wrap-left {
     width: 60%;
+  }
+  .login-wrap-left img {
+    width: 100%;
+    height: 100%;
   }
   .login-wrap-right {
     padding-top: 15px;
@@ -102,5 +108,26 @@ export default {
   }
   .login-btn-div {
     width: 100%;
+  }
+  .login-logo {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    display: block;
+  }
+  .forget-password {
+    color: #606266;
+    cursor: pointer;
+  }
+  .login-operation {
+    width: 100%;
+    margin-top: 50px;
+  }
+  .login-operation>div {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
   }
 </style>

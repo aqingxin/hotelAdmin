@@ -6,7 +6,8 @@
     width: 51px !important;
 }
 .el-form-item__content {
-    margin-left: 51px !important;
+    margin-left: 0px !important;
+    width: 100%;
 }
 .login-btn {
     width: 100%;
