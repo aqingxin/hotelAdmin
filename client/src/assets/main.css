@@ -12,3 +12,15 @@
 .login-btn {
     width: 100%;
 }
+.validate-code {
+    display: flex;
+    justify-content: space-between;
+}
+.code-input {
+    width: 55%;
+    margin-right: 28px;
+}
+.code-btn {
+    width: 35%;
+    padding: 12px 15px;
+}

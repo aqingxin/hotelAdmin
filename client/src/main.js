@@ -7,8 +7,9 @@ import MainCss from './assets/main.css';
 import axios from 'axios';
 
 
-Vue.prototype.$http=axios
-Vue.config.productionTip = false
+axios.defaults.withCredentials=true;
+Vue.prototype.$http=axios;
+Vue.config.productionTip = false;
 Vue.use(ElementUI);
 
 new Vue({
