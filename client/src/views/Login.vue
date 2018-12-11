@@ -34,10 +34,10 @@
             </el-form-item>
             <el-form-item prop="code" class="validate-code">
               <el-input v-model.number="ruleForm.code" placeholder="请输入验证码" @keyup.enter.native="login('ruleForm')" class="code-input"></el-input>
-              <el-button type="default" class="code-btn" @click="sendMail">发送验证码</el-button>
+              <el-button type="default" class="code-btn" :disabled="bModifyBtnStatus" @click="sendMail">{{sModifyBtnText}}</el-button>
             </el-form-item>
             <el-form-item  prop="newPassword">
-              <el-input v-model="ruleForm.newPassword" placeholder="请输入新登录密码"></el-input>
+              <el-input type="password" v-model="ruleForm.newPassword" placeholder="请输入新登录密码"></el-input>
             </el-form-item>
             <div class="forget-btn-div" >
               <el-button class="login-btn" type="defalut"  @click="forgetPassowrd" >返回登录</el-button>
@@ -90,9 +90,13 @@ export default {
           { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
         ]
       },
-      bBtnLoginStatus:false,
-      checkBoxFlag:false,
-      bForgetPassowrd:false
+      bBtnLoginStatus:false,   //点击登录时按钮的等待状态
+      checkBoxFlag:false,      //记住我？
+      bForgetPassowrd:false,   //忘记密码
+      sModifyBtnText:'发送验证码',    //发送验证码按钮文本
+      nSendTime:60,    //
+      bModifyBtnStatus:false,
+      bSendTime:null
     }
   },
   methods:{
@@ -152,7 +156,7 @@ export default {
     forgetPassowrd(){   //忘记密码
       this.bForgetPassowrd=!this.bForgetPassowrd
     },
-    modify(formName){
+    modify(formName){   //修改密码
       this.$refs[formName].validate(valid=>{
         if(valid){
           let message='登陆正确';
@@ -203,8 +207,12 @@ export default {
         }
       })
     },
-    sendMail(){
+    sendMail(){    //发送验证码
       if(this.ruleForm.email){
+        this.bSendTime=setInterval(()=>{
+          // console.log(this)
+          this.changeLoginBtn();
+        },1000)
         var params = new URLSearchParams();
         params.append('email',this.ruleForm.email);
         this.$http.post('http://10.21.40.155:3000/sendMail',params).then(res=>{
@@ -235,8 +243,21 @@ export default {
           type: 'error'
         })
       }
+    },
+    changeLoginBtn(){
+      this.nSendTime--;
+      if(this.nSendTime<=0){
+        clearInterval(this.bSendTime);
+        this.sModifyBtnText=`重新获取`;
+        this.bModifyBtnStatus=false;
+        this.nSendTime=60;
+      } else{
+        this.sModifyBtnText=`${this.nSendTime}秒后重新获取`;
+        this.bModifyBtnStatus=true;
+      }
     }
-  }
+  },
+  
 }
 </script>
 
