@@ -14,7 +14,7 @@ var transpoeter=nodemailer.createTransport(config);
 var sendMail=function(req,res){
   var randomNum = ('000000' + Math.floor(Math.random() * 999999)).slice(-6);
   req.session.validateCode=randomNum;
-  req.session.validateCodeTime=new Date(Date.now()+600000);
+  req.session.validateCodeTime=new Date().getTime()+600000;
   let email = {
     from:"hotelAdmin '13071581420@163.com'",
     to:req.body.email,

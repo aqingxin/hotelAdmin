@@ -8,7 +8,11 @@ var connection=mysql.createConnection({   //创建数据库连接
 })
 
 modifyPassword=function(req,res){
-  if(new Date(Date.now())>req.session.validateCodeTime){
+  if(req.session.validateCode===undefined){
+    res.json({code:202,msg:'验证码不存在'})
+  }
+  console.log(new Date().getTime(),req.session.validateCodeTime)
+  if(new Date().getTime()>req.session.validateCodeTime){
     res.json({code:202,msg:'验证码过期'})
   }else{
     if(req.body.code===req.session.validateCode){
@@ -28,6 +32,7 @@ modifyPassword=function(req,res){
       res.json({code:203,msg:'验证码错误'})
     }
   }
+  
 }
 
 module.exports=modifyPassword;
