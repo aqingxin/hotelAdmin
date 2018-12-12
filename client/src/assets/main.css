@@ -24,3 +24,10 @@
     width: 40%;
     padding: 12px 8px;
 }
+.el-header {
+    background: #fff;
+    border-bottom: 1px solid #E6E6E6;
+}
+.el-main {
+    padding: 10px;
+}

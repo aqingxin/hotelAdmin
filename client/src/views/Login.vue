@@ -112,10 +112,11 @@ export default {
           params.append('password',pass);
           let message='登陆正确';
           let type='success';
-          this.$http.post('http://10.21.40.155:3000/login',params).then(res=>{  //发起请求
+          this.$http.post('http://10.21.40.155:3000/login',params,{withCredentials : true}).then(res=>{  //发起请求
             if(res.data.code===200){
               message=res.data.msg;
               type='success';
+              window.localStorage.setItem('loginToken',res.data.token)
               setTimeout(()=>{
                 this.$router.push({path:'/'})
               },3000)
@@ -159,32 +160,21 @@ export default {
     modify(formName){   //修改密码
       this.$refs[formName].validate(valid=>{
         if(valid){
-          let message='登陆正确';
-          let type='success';
+          let message=null;
+          let type=null;
           var md5=crypto.createHash('md5');    //对密码进行加密
           md5.update(this.ruleForm.newPassword);
           var newPass = md5.digest('hex');
-          console.log(newPass)
           var params=new URLSearchParams();
           params.append('code',this.ruleForm.code);
           params.append('newPassword',newPass)
           this.$http.post('http://10.21.40.155:3000/modifyPassword',params).then(res=>{
-            switch(res.data.code){   //根据返回的状态码进行消息通知
-              case 201:
-                message=res.data.msg;
-                type='error';
-              break;
-              case 202:
-                message=res.data.msg;
-                type='error';
-              break;
-              case 203:
-                message=res.data.msg;
-                type='error';
-              break;
-              default:
-                message=res.data.msg;
-                type='success';
+            if(res.data.code===200){
+              message=res.data.msg;
+              type='success';
+            }else{
+              message=res.data.msg;
+              type='error';
             }
             this.$message({
               showClose: true,
