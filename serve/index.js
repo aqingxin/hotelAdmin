@@ -43,6 +43,23 @@ var connection=mysql.createConnection({   //创建数据库连接
 	database:'hotel',
 })
 
+app.use(function(req,res,next){
+  if(req.session.username){
+    next();
+  }else{
+    var arr=req.url.split('/');
+    for(var i=0;i<arr.length;i++){
+      arr[i]=arr[i].split('?')[0];
+    }
+    if(arr[1]==='login'||arr[1]==='modifyPassword'||arr[1]==='sendMail'){
+      console.log(1111)
+      next();
+    }else{
+      console.log(req.session)
+      res.json({code:210,msg:'未登录'})
+    }
+  }
+})
 
 app.post('/login',function(req,res){
   let addSql="SELECT * FROM  user WHERE user_name=?";
@@ -60,12 +77,18 @@ app.post('/login',function(req,res){
           res.json({code:202,msg:'密码错误'})
         }else{
           req.session.username=req.body.username;
-          res.json({code:200,msg:'登录成功'})
+          res.json({code:200,msg:'登录成功',token:new Date().getTime()})
         }
       }
     }
   })
 })
 
+
 app.post('/sendMail',sendMail);   //发送验证邮箱给用户
 app.post('/modifyPassword',modifyPassword);   //修改密码
+
+app.get('/getData',function(req,res){
+  console.log(req.session.username)
+  res.json({msg:'res'})
+})
