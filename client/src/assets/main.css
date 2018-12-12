@@ -31,3 +31,6 @@
 .el-main {
     padding: 10px;
 }
+.el-dropdown-link {
+    cursor: pointer;
+}
