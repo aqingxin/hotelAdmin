@@ -52,10 +52,8 @@ app.use(function(req,res,next){
       arr[i]=arr[i].split('?')[0];
     }
     if(arr[1]==='login'||arr[1]==='modifyPassword'||arr[1]==='sendMail'){
-      console.log(1111)
       next();
     }else{
-      console.log(req.session)
       res.json({code:210,msg:'未登录'})
     }
   }
@@ -88,7 +86,7 @@ app.post('/login',function(req,res){
 app.post('/sendMail',sendMail);   //发送验证邮箱给用户
 app.post('/modifyPassword',modifyPassword);   //修改密码
 
-app.get('/getData',function(req,res){
-  console.log(req.session.username)
+app.get('/check',function(req,res){
+  // console.log(req.session.username)
   res.json({msg:'res'})
 })
