@@ -15,6 +15,6 @@ export default {
   .main {
     width: 100%;
     height: 500px;
-    background: lightcyan;
+    background: #fff;
   }
 </style>
