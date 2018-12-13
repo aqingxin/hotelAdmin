@@ -8,6 +8,7 @@ var crypto=require('crypto');
 var sendMail=require('./config/email');
 var modifyPassword=require('./config/modifyPassword');
 var unlock=require('./config/unlock');
+var logout=require('./config/logout');
 
 var server = app.listen(3000, function () {
     var host = server.address().address;
@@ -92,4 +93,5 @@ app.get('/check',function(req,res){
   res.json({msg:'res'})
 })
 
-app.post('/unlock',unlock);
+app.post('/unlock',unlock);  //验证解锁密码
+app.post('/logout',logout);  //用户注销
