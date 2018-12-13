@@ -6,7 +6,8 @@ var session=require('express-session');
 var bodyParser=require('body-parser');
 var crypto=require('crypto');
 var sendMail=require('./config/email');
-var modifyPassword=require('./config/modifyPassword')
+var modifyPassword=require('./config/modifyPassword');
+var unlock=require('./config/unlock');
 
 var server = app.listen(3000, function () {
     var host = server.address().address;
@@ -51,7 +52,7 @@ app.use(function(req,res,next){
     for(var i=0;i<arr.length;i++){
       arr[i]=arr[i].split('?')[0];
     }
-    if(arr[1]==='login'||arr[1]==='modifyPassword'||arr[1]==='sendMail'){
+    if(arr[1]==='login'||arr[1]==='modifyPassword'||arr[1]==='sendMail'||arr[1]==='unlock'){
       next();
     }else{
       res.json({code:210,msg:'未登录'})
@@ -90,3 +91,5 @@ app.get('/check',function(req,res){
   // console.log(req.session.username)
   res.json({msg:'res'})
 })
+
+app.post('/unlock',unlock);
