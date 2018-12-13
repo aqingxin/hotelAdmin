@@ -34,3 +34,7 @@
 .el-dropdown-link {
     cursor: pointer;
 }
+.lock-item {
+    text-align: center;
+    width: 100%;
+}
