@@ -55,7 +55,7 @@ app.use(function(req,res,next){
     if(arr[1]==='login'||arr[1]==='modifyPassword'||arr[1]==='sendMail'||arr[1]==='unlock'){
       next();
     }else{
-      res.json({code:210,msg:'未登录'})
+      res.status(210).json({code:210,msg:'未登录'})
     }
   }
 })
@@ -66,17 +66,17 @@ app.post('/login',function(req,res){
   connection.query(addSql,getData,function(err,result){
     if(err){
       console.log(err)
-      res.json({code:203,msg:err})
+      res.status(203).json({code:203,msg:err})
     }else{
       var hashPassword=crypto.createHash('md5').update(req.body.password).digest('hex');
       if(result.length===0){
-        res.json({code:201,msg:'账号未注册'})
+        res.status(201).json({code:201,msg:'账号未注册'})
       }else{
         if(hashPassword!==result[0].user_password){
-          res.json({code:202,msg:'密码错误'})
+          res.status(202).json({code:202,msg:'密码错误'})
         }else{
           req.session.username=req.body.username;
-          res.json({code:200,msg:'登录成功',token:new Date().getTime()})
+          res.status(200).json({code:200,msg:'登录成功',token:new Date().getTime()})
         }
       }
     }

@@ -25,9 +25,9 @@ var sendMail=function(req,res){
   transpoeter.sendMail(email,function(err,info){
     if(err){
       console.log(err)
-      res.json({code:201,msg:err})
+      res.status(201).json({code:201,msg:err})
     }else{
-      res.json({code:200,msg:info})
+      res.status(202).json({code:200,msg:info})
     }
   })
 }

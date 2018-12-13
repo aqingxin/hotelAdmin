@@ -13,7 +13,7 @@ modifyPassword=function(req,res){
   }
   console.log(new Date().getTime(),req.session.validateCodeTime)
   if(new Date().getTime()>req.session.validateCodeTime){
-    res.json({code:202,msg:'验证码过期'})
+    res.status(202).json({code:202,msg:'验证码过期'})
   }else{
     if(req.body.code===req.session.validateCode){
       console.log(req.body.newPassword)
@@ -23,13 +23,13 @@ modifyPassword=function(req,res){
       connection.query(updateSql,updateData,function(err){
         if(err){
           console.log(err)
-          res.json({code:201,msg:'密码修改失败'})
+          res.status(201).json({code:201,msg:'密码修改失败'})
         }else{
-          res.json({code:200,msg:'密码修改成功'})
+          res.status(200).json({code:200,msg:'密码修改成功'})
         }
       })
     }else{
-      res.json({code:203,msg:'验证码错误'})
+      res.status(203).json({code:203,msg:'验证码错误'})
     }
   }
   
