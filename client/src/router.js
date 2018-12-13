@@ -18,15 +18,14 @@ const routes=[
   {
     path: '/login',
     name: 'Login',
-    component: Login
+    component: Login,
+   
   },
   {
     path: '/lock',
     name: 'Lock',
     component: Lock,
-    meta:{
-      requireAuth: true
-    }
+    
   },
 ]
 
@@ -34,20 +33,18 @@ const router=new Router({
   routes
 });
 router.beforeEach((to,from,next)=>{
-  if(to.meta.requireAuth&&window.localStorage.getItem('loginToken')==null){
+  if(to.meta.requireAuth&&window.localStorage.getItem('loginToken')===null||to.name==='Lock'&&window.localStorage.getItem('loginToken')===null){   //在未登录情况下，不给跳转到任何页面
     next({
       path:'/login'
     })
-  }else{
-    next();
-  }
-
-  if(to.meta.requireAuth&&window.localStorage.getItem('lock')!==null&&eval(window.localStorage.getItem('lock').toLowerCase())){
-    console.log(2222)
+  }else if(to.meta.requireAuth&&window.localStorage.getItem('lock')!==null&&eval(window.localStorage.getItem('lock').toLowerCase())===true||to.name==='Login'&&window.localStorage.getItem('lock')!==null&&eval(window.localStorage.getItem('lock').toLowerCase())===true){   //在系统锁定情况下，不给跳转任何页面
     next({
       path:'/lock'
     })
+  }else if(to.name==='Login'&&window.localStorage.getItem('loginToken')!==null||to.name==='Lock'&&eval(window.localStorage.getItem('lock').toLowerCase())===false){    //在已登录情况下不给跳转到登录页面，在系统未锁定情况下，不给跳转到系统锁定界面
+    next(false)
   }else{
+    console.log(3)
     next();
   }
 })

@@ -76,7 +76,7 @@ export default {
           this.$router.push({path:'/lock'})
         break;
         case 'logout':   //退出系统
-          this.$http.post('http://10.21.40.155:3000/logout').then(res=>{
+          this.$http.post('http://10.21.40.155:3000/logout',{withCredentials : true}).then(res=>{
             if(res.data.code===200){
               this.$message({
                 showClose:true,
