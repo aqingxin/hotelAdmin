@@ -19,7 +19,7 @@
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>个人中心</el-dropdown-item>
             <el-dropdown-item command="lock">锁定系统</el-dropdown-item>
-            <el-dropdown-item>退出系统</el-dropdown-item>
+            <el-dropdown-item command="logout">退出系统</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         <div class="admin-logo">
@@ -66,7 +66,7 @@ export default {
     },
     dropdownComm(command){
       switch(command){
-        case 'lock':
+        case 'lock':   //锁定系统
           window.localStorage.setItem('lock',true);
           this.$message({
             showClose:true,
@@ -75,13 +75,33 @@ export default {
           })
           this.$router.push({path:'/lock'})
         break;
+        case 'logout':   //退出系统
+          this.$http.post('http://10.21.40.155:3000/logout').then(res=>{
+            if(res.data.code===200){
+              this.$message({
+                showClose:true,
+                message:res.data.msg,
+                type:'success'
+              })
+              window.localStorage.removeItem('loginToken');
+              this.$router.push({path:'/login'})
+            }else{
+              this.$message({
+                showClose:true,
+                message:res.data.msg,
+                type:'err'
+              })
+            }
+          }).catch(err=>{
+            this.$message({
+                showClose:true,
+                message:'网络请求失败',
+                type:'err'
+              })
+          })
+        break;
       }
     },
-    // lockSystem(){
-    //   console.log(111)
-    //   window.localStorage.setItem('lock',true);
-    //   this.$route.push({path:'/lock'})
-    // }
   }
 }
 </script>
