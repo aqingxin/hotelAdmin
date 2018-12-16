@@ -38,3 +38,15 @@
     text-align: center;
     width: 100%;
 }
+.el-menu>a {
+    text-decoration: none;
+}
+.el-menu {
+    height: 100%;
+}
+.el-container {
+    height: calc(100% - 60px);
+}
+.el-table {
+    text-align: center;
+}

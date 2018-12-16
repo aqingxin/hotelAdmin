@@ -104,9 +104,11 @@ export default {
       this.$refs[formName].validate(valid=>{   //表单验证
         if(valid){ 
           this.bBtnLoginStatus=true; //改变登陆按钮状态
+
           var md5=crypto.createHash('md5');    //对密码进行加密
           md5.update(this.loginRulesForm.password);
           var pass = md5.digest('hex');
+          
           var params = new URLSearchParams();
           params.append('username',this.loginRulesForm.name);
           params.append('password',pass);

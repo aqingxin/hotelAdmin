@@ -12,7 +12,7 @@
         <el-form-item class="lock-item" prop="lockPassword">
           <el-input class="unlock-input" type="password" v-model="lockForm.lockPassword" placeholder="请输入解锁密码" />
         </el-form-item>
-        <el-button type="defalut" class="unlock-button" @click="fUnlockForm('lockForm')">unlock</el-button>
+        <el-button type="defalut" class="unlock-button" @click="fUnlockForm('lockForm')">解锁</el-button>
       </el-form>
     </div>
   </div>

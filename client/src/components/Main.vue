@@ -1,6 +1,8 @@
 <template>
   <el-main>
-    <div class="main"></div>
+    <div class="main-content">
+
+    </div>
   </el-main>
 </template>
 
@@ -12,9 +14,9 @@ export default {
 
 
 <style lang="less" scoped>
-  .main {
+  .main-content {
     width: 100%;
-    height: 500px;
+    height: 100%;
     background: #fff;
   }
 </style>

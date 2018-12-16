@@ -6,7 +6,11 @@
    </section> -->
    <el-container>
      <Aside />
-     <Main />
+     <el-main>
+      <div class="main">
+        <router-view />
+      </div>
+     </el-main>
    </el-container>
   </div>
 </template>
@@ -46,3 +50,18 @@ export default {
   }
 }
 </script>
+
+
+<style lang="less" scoped>
+.home {
+  width: 100%;
+  height: 100%;
+}
+.main {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  padding: 15px;
+  box-sizing: border-box;
+}
+</style>
