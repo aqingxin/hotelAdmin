@@ -9,6 +9,7 @@ var sendMail=require('./config/email');
 var modifyPassword=require('./config/modifyPassword');
 var unlock=require('./config/unlock');
 var logout=require('./config/logout');
+var getRoom=require('./config/getRoom');
 
 var server = app.listen(3000, function () {
     var host = server.address().address;
@@ -95,3 +96,4 @@ app.get('/check',function(req,res){
 
 app.post('/unlock',unlock);  //验证解锁密码
 app.post('/logout',logout);  //用户注销
+app.get('/getRoom',getRoom);  //获取房间
