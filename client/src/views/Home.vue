@@ -63,5 +63,7 @@ export default {
   background: #fff;
   padding: 15px;
   box-sizing: border-box;
+  border-radius:3px;
+  overflow-y: auto;
 }
 </style>

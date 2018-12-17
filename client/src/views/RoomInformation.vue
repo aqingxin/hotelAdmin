@@ -1,8 +1,31 @@
 <template>
   <div class="room-information">
     <div class="add">
-      <el-button type="primary">新增房间</el-button>
+      <el-button type="primary" @click="dialogFormVisible = true">新增房间</el-button>
     </div>
+    <el-dialog title="新增房间" :visible.sync="dialogFormVisible">
+      <el-form :model="form" :rules="rules">
+        <el-form-item label="房间号码" :label-width="formLabelWidth" prop="roomNumber">
+          <el-input v-model="form.roomNumber" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="房间类型" :label-width="formLabelWidth" prop="roomType">
+          <el-select v-model="form.roomType" placeholder="请选择房间类型">
+            <el-option label="单人间" value="单人间"></el-option>
+            <el-option label="双人间" value="双人间"></el-option>
+            <el-option label="三人间" value="三人间"></el-option>
+            <el-option label="商务间" value="商务间"></el-option>
+            <el-option label="总统间" value="总统间"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="房间定价" :label-width="formLabelWidth" prop="roomMoney">
+          <el-input v-model="form.roomMoney" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addRoom">确 定</el-button>
+      </div>
+    </el-dialog>
     <div class="room-table">
       <el-table
         :data="roomData"
@@ -54,37 +77,73 @@
 export default {
   data(){
     return {
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }],
-      roomData:[]
+      roomData:[],
+      dialogFormVisible: false,
+      form: {
+        roomNumber: '',
+        roomType: '',
+        roomMoney: '',
+      },
+      formLabelWidth: '120px',
+      rules:{
+        roomNumber: [
+          { required: true, message: '请输入房间号码', trigger: 'blur' },
+        ],
+        roomType:[
+          { required: true, message: '请选择房间类型', trigger: 'blur' },
+        ],
+        roomMoney:[
+          { required: true, message: '请输入房间定价', trigger: 'blur' },
+        ]
+      }
     }
   },
   mounted(){
-    this.$http.get('http://10.21.40.155:3000/getRoom').then(res=>{
-      console.log(res)
-      this.roomData=res.data.msg
-    }).catch(err=>{
-      this.$message({
-        showClose:true,
-        message:'网络请求错误',
-        type:'error'
+    this.getRoom();
+  },
+  methods:{
+    getRoom(){
+      this.$http.get('http://10.21.40.155:3000/getRoom').then(res=>{   //获取房间信息
+        console.log(res)
+        this.roomData=res.data.msg
+      }).catch(err=>{
+        this.$message({
+          showClose:true,
+          message:'网络请求错误',
+          type:'error'
+        })
       })
-    })
+    },
+    addRoom(){
+      console.log(this.form);
+      var parmas=new URLSearchParams();
+      parmas.append('roomNum',this.form.roomNumber);
+      parmas.append('roomType',this.form.roomType);
+      parmas.append('roomMoney',this.form.roomMoney);
+      this.$http.post('http://10.21.40.155:3000/addRoom',parmas).then(res=>{
+        if(res.status===210){
+          this.$message({
+            showClose:true,
+            message:res.data.msg,
+            type:'error'
+          })
+        }else{
+          this.$message({
+            showClose:true,
+            message:res.data.msg,
+            type:'success'
+          })
+          this.dialogFormVisible=false;
+          this.getRoom();
+        }
+      }).catch(err=>{
+        this.$message({
+          showClose:true,
+          message:"网络请求失败",
+          type:'error'
+        })
+      })
+    }
   }
 }
 </script>

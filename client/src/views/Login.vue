@@ -9,10 +9,10 @@
         <!-- <h3>Hotel Admin</h3> -->
         <div class="login-wrap-form">
           <el-form :model="loginRulesForm" :rules="loginRules" ref="loginRules" label-width="100px" class="demo-loginRules">
-            <el-form-item  prop="name">
+            <el-form-item class="login-name"  prop="name">
               <el-input v-model="loginRulesForm.name" placeholder="请输入用户名"></el-input>
             </el-form-item>
-            <el-form-item prop="password">
+            <el-form-item class="login-password" prop="password">
               <el-input type="password" v-model="loginRulesForm.password" placeholder="请输入密码" @keyup.enter.native="login('loginRules')"></el-input>
             </el-form-item>
             <div class="login-btn-div" @click="login('loginRules')">
@@ -108,7 +108,7 @@ export default {
           var md5=crypto.createHash('md5');    //对密码进行加密
           md5.update(this.loginRulesForm.password);
           var pass = md5.digest('hex');
-          
+
           var params = new URLSearchParams();
           params.append('username',this.loginRulesForm.name);
           params.append('password',pass);

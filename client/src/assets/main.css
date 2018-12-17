@@ -2,10 +2,10 @@
   margin: 0;
   padding: 0;  
 }
-.el-form-item__label {
+.login-wrap-form .el-form-item__label {
     width: 51px !important;
 }
-.el-form-item__content {
+.login-wrap-form .el-form-item__content{
     margin-left: 0px !important;
     width: 100%;
 }
