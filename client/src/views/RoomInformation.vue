@@ -64,7 +64,7 @@
           label="操作">
           <template slot-scope="scope">
             <el-button type="primary" size="mini" >修改</el-button>
-            <el-button type="danger" size="mini">删除</el-button>
+            <el-button type="danger" size="mini" @click="deleteRoom(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -140,6 +140,37 @@ export default {
         this.$message({
           showClose:true,
           message:"网络请求失败",
+          type:'error'
+        })
+      })
+    },
+    deleteRoom(roomId){
+      // let parmas={roomId:roomId}
+      var parmas=new URLSearchParams();
+      parmas.append('roomId',roomId)
+      this.$http.delete('http://10.21.40.155:3000/deleteRoom?roomId='+roomId,{withCredentials : true},{
+        header:{
+          emulateJSON:true
+        }
+      }).then(res=>{
+        if(res.data.code===200){
+          this.$message({
+            showClose:true,
+            message:res.data.msg,
+            type:'success'
+          })
+          this.getRoom();
+        }else{
+          this.$message({
+            showClose:true,
+            message:res.data.msg,
+            type:'error'
+          })
+        }
+      }).catch(err=>{
+        this.$message({
+          showClose:true,
+          message:'网络请求失败',
           type:'error'
         })
       })
