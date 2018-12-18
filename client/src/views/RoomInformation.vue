@@ -1,9 +1,9 @@
 <template>
   <div class="room-information">
     <div class="add">
-      <el-button type="primary" @click="dialogFormVisible = true">新增房间</el-button>
+      <el-button type="primary" @click="showForm('add')">新增房间</el-button>
     </div>
-    <el-dialog title="新增房间" :visible.sync="dialogFormVisible">
+    <el-dialog :title="formTitle" :visible.sync="dialogFormVisible">
       <el-form :model="form" :rules="rules">
         <el-form-item label="房间号码" :label-width="formLabelWidth" prop="roomNumber">
           <el-input v-model="form.roomNumber" autocomplete="off"></el-input>
@@ -23,7 +23,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addRoom">确 定</el-button>
+        <el-button type="primary" @click="sendRoom">确 定</el-button>
       </div>
     </el-dialog>
     <div class="room-table">
@@ -63,7 +63,7 @@
           align="center"
           label="操作">
           <template slot-scope="scope">
-            <el-button type="primary" size="mini" >修改</el-button>
+            <el-button type="primary" size="mini" @click="showForm('modify',scope.row)">修改</el-button>
             <el-button type="danger" size="mini" @click="deleteRoom(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
@@ -95,7 +95,11 @@ export default {
         roomMoney:[
           { required: true, message: '请输入房间定价', trigger: 'blur' },
         ]
-      }
+      },
+      formTitle:'新增房间',
+      roomAPI:'http://10.21.40.155:3000/addRoom',
+      formType:'',
+      roomId:null,
     }
   },
   mounted(){
@@ -114,13 +118,16 @@ export default {
         })
       })
     },
-    addRoom(){
+    sendRoom(){
       console.log(this.form);
       var parmas=new URLSearchParams();
       parmas.append('roomNum',this.form.roomNumber);
       parmas.append('roomType',this.form.roomType);
       parmas.append('roomMoney',this.form.roomMoney);
-      this.$http.post('http://10.21.40.155:3000/addRoom',parmas).then(res=>{
+      if(this.formType==='modify'){
+        parmas.append('roomId',this.roomId);
+      }
+      this.$http.post(this.roomAPI,parmas).then(res=>{
         if(res.status===210){
           this.$message({
             showClose:true,
@@ -145,35 +152,64 @@ export default {
       })
     },
     deleteRoom(roomId){
-      // let parmas={roomId:roomId}
-      var parmas=new URLSearchParams();
-      parmas.append('roomId',roomId)
-      this.$http.delete('http://10.21.40.155:3000/deleteRoom?roomId='+roomId,{withCredentials : true},{
-        header:{
-          emulateJSON:true
-        }
-      }).then(res=>{
-        if(res.data.code===200){
+      this.$confirm('此操作将永久删除该房间信息, 是否继续?', '操作提示', {   //点击删除按钮时先弹框警告
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        var parmas=new URLSearchParams();
+        parmas.append('roomId',roomId)
+        this.$http.delete('http://10.21.40.155:3000/deleteRoom?roomId='+roomId,{withCredentials : true},{
+          header:{
+            emulateJSON:true
+          }
+        }).then(res=>{
+          if(res.data.code===200){
+            this.$message({
+              showClose:true,
+              message:res.data.msg,
+              type:'success'
+            })
+            this.getRoom();
+          }else{
+            this.$message({
+              showClose:true,
+              message:res.data.msg,
+              type:'error'
+            })
+          }
+        }).catch(err=>{
           this.$message({
             showClose:true,
-            message:res.data.msg,
-            type:'success'
-          })
-          this.getRoom();
-        }else{
-          this.$message({
-            showClose:true,
-            message:res.data.msg,
+            message:'网络请求失败',
             type:'error'
           })
-        }
-      }).catch(err=>{
-        this.$message({
-          showClose:true,
-          message:'网络请求失败',
-          type:'error'
         })
       })
+      
+    },
+    showForm(type,room=undefined){   
+      this.dialogFormVisible=true;
+      if(type==='modify'){   //判断是修改房间信息还是添加房间
+        this.formTitle="修改房间";
+        let tmpRoomData={
+          roomNumber:room.room_num,
+          roomType:room.room_type,
+          roomMoney:room.room_money
+        };
+        this.form=tmpRoomData;
+        this.formType='modify';
+        this.roomId=room.id;
+        this.roomAPI='http://10.21.40.155:3000/modifyRoom';
+      }else{   //添加房间
+        this.form={
+          roomNumber: '',
+          roomType: '',
+          roomMoney: '',
+        }
+        this.roomAPI='http://10.21.40.155:3000/addRoom';
+        this.formType='';
+      }
     }
   }
 }
