@@ -12,6 +12,7 @@ var logout=require('./config/logout');
 var getRoom=require('./config/getRoom');
 var addRoom=require('./config/addRoom');
 var deleteRoom=require('./config/deleteRoom');
+var modifyRoom=require('./config/modifyRoom');
 
 var server = app.listen(3000, function () {
     var host = server.address().address;
@@ -101,3 +102,4 @@ app.post('/logout',logout);  //用户注销
 app.get('/getRoom',getRoom);   //获取房间信息
 app.post('/addRoom',addRoom);   //添加房间
 app.del('/deleteRoom',deleteRoom);    //删除房间
+app.post('/modifyRoom',modifyRoom);
