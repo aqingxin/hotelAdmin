@@ -11,6 +11,7 @@ var unlock=require('./config/unlock');
 var logout=require('./config/logout');
 var getRoom=require('./config/getRoom');
 var addRoom=require('./config/addRoom');
+var deleteRoom=require('./config/deleteRoom');
 
 var server = app.listen(3000, function () {
     var host = server.address().address;
@@ -97,5 +98,6 @@ app.get('/check',function(req,res){
 
 app.post('/unlock',unlock);  //验证解锁密码
 app.post('/logout',logout);  //用户注销
-app.get('/getRoom',getRoom);  
-app.post('/addRoom',addRoom);
+app.get('/getRoom',getRoom);   //获取房间信息
+app.post('/addRoom',addRoom);   //添加房间
+app.del('/deleteRoom',deleteRoom);    //删除房间
