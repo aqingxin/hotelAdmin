@@ -74,6 +74,7 @@
 
 
 <script>
+import crypto from 'crypto';
 export default {
   data(){
     return {
@@ -108,7 +109,6 @@ export default {
   methods:{
     getRoom(){
       this.$http.get('http://10.21.40.155:3000/getRoom').then(res=>{   //获取房间信息
-        console.log(res)
         this.roomData=res.data.msg
       }).catch(err=>{
         this.$message({
@@ -118,8 +118,7 @@ export default {
         })
       })
     },
-    sendRoom(){
-      console.log(this.form);
+    sendRoom(){    //添加房间信息或者修改房间信息
       var parmas=new URLSearchParams();
       parmas.append('roomNum',this.form.roomNumber);
       parmas.append('roomType',this.form.roomType);
@@ -159,6 +158,7 @@ export default {
       }).then(() => {
         var parmas=new URLSearchParams();
         parmas.append('roomId',roomId)
+
         this.$http.delete('http://10.21.40.155:3000/deleteRoom?roomId='+roomId,{withCredentials : true},{
           header:{
             emulateJSON:true
@@ -185,8 +185,7 @@ export default {
             type:'error'
           })
         })
-      })
-      
+      }).catch(()=>{})
     },
     showForm(type,room=undefined){   
       this.dialogFormVisible=true;

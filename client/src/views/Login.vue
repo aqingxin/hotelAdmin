@@ -99,15 +99,37 @@ export default {
       bSendTime:null
     }
   },
+  mounted(){   
+    let RememberUser=localStorage.getItem('RememberUser');     //进入页面时判断是否"记住我"这个用户，如果有，就填充表单
+    console.log(RememberUser)
+    if(RememberUser!==null){
+      let tmpUser=JSON.parse(RememberUser);
+      var decipher=crypto.createDecipher('aes192', 'hotelAdmin');
+      var tmpPass=decipher.update(tmpUser.password,"hex", "utf8");
+      tmpPass+=decipher.final("utf8");
+      this.loginRulesForm.name=tmpUser.user;
+      this.loginRulesForm.password=tmpPass;
+      this.checkBoxFlag=tmpUser.status
+    }
+  },
   methods:{
     login(formName){
       this.$refs[formName].validate(valid=>{   //表单验证
         if(valid){ 
+          
           this.bBtnLoginStatus=true; //改变登陆按钮状态
 
-          var md5=crypto.createHash('md5');    //对密码进行加密
-          md5.update(this.loginRulesForm.password);
-          var pass = md5.digest('hex');
+          // var md5=crypto.createHash('md5');    //对密码进行加密
+          // md5.update(this.loginRulesForm.password);
+          // var pass = md5.digest('hex');
+
+          let t1=crypto.createCipher('aes192','hotelAdmin');   //对密码进行加密
+          let pass=t1.update(this.loginRulesForm.password,'utf8','hex');
+          pass+=t1.final('hex');
+          
+          if(this.checkBoxFlag){   //记住密码
+            localStorage.setItem('RememberUser',JSON.stringify({user:this.loginRulesForm.name,password:pass,status:this.checkBoxFlag}))
+          }
 
           var params = new URLSearchParams();
           params.append('username',this.loginRulesForm.name);
@@ -137,7 +159,7 @@ export default {
               username:this.loginRulesForm.name,
               password:pass
             }
-            window.localStorage.setItem('userLogin',JSON.stringify(userLogin));
+            // window.localStorage.setItem('userLogin',JSON.stringify(userLogin));
             
           }).catch(err=>{
             this.$message({
@@ -164,12 +186,15 @@ export default {
         if(valid){
           let message=null;
           let type=null;
-          var md5=crypto.createHash('md5');    //对密码进行加密
-          md5.update(this.ruleForm.newPassword);
-          var newPass = md5.digest('hex');
+          // var md5=crypto.createHash('md5');    //对密码进行加密
+          // md5.update(this.ruleForm.newPassword);
+          // var newPass = md5.digest('hex');
+          let t1=crypto.createCipher('aes192','hotelAdmin');   //对密码进行加密
+          let newPass=t1.update(this.ruleForm.newPassword,'utf8','hex');
+          newPass+=t1.final('hex');
           var params=new URLSearchParams();
           params.append('code',this.ruleForm.code);
-          params.append('newPassword',newPass)
+          params.append('newPassword',newPass);
           this.$http.post('http://10.21.40.155:3000/modifyPassword',params).then(res=>{
             if(res.data.code===200){
               message=res.data.msg;
