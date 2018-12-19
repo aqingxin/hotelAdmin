@@ -16,11 +16,15 @@ modifyPassword=function(req,res){
     res.status(202).json({code:202,msg:'验证码过期'})
   }else{
     if(req.body.code===req.session.validateCode){
-      console.log(req.body.newPassword)
-      
-      var md5=crypto.createHash('md5');   //对密码进行再次加密
-      md5.update(req.body.newPassword);
-      var hashPassword=md5.digest('hex');
+      // console.log(req.body.newPassword)
+
+      // var md5=crypto.createHash('md5');   //对密码进行再次加密
+      // md5.update(req.body.newPassword);
+      // var hashPassword=md5.digest('hex');
+
+      let t1=crypto.createCipher('aes192','hotelAdmin');   ////对密码进行再次加密
+      let hashPassword=t1.update(req.body.newPassword,'utf8','hex');
+      hashPassword+=t1.final('hex');
         
       let updateSql="UPDATE user SET user_password=? WHERE user_name=?";
       let updateData=[hashPassword,'admin'];

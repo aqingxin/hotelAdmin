@@ -73,7 +73,11 @@ app.post('/login',function(req,res){
       console.log(err)
       res.status(203).json({code:203,msg:err})
     }else{
-      var hashPassword=crypto.createHash('md5').update(req.body.password).digest('hex');
+      // var hashPassword=crypto.createHash('md5').update(req.body.password).digest('hex');
+      let t1=crypto.createCipher('aes192','hotelAdmin');   //对密码进行加密
+      let hashPassword=t1.update(req.body.password,'utf8','hex');
+      hashPassword+=t1.final('hex');
+
       if(result.length===0){
         res.status(201).json({code:201,msg:'账号未注册'})
       }else{
