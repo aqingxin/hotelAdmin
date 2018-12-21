@@ -108,7 +108,7 @@ export default {
   },
   methods:{
     getRoom(){
-      this.$http.get('http://10.21.40.155:3000/getRoom').then(res=>{   //获取房间信息
+      this.$http.get('http://10.21.40.155:3000/getAllRoom').then(res=>{   //获取房间信息
         this.roomData=res.data.msg
       }).catch(err=>{
         this.$message({
