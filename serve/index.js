@@ -10,9 +10,12 @@ var modifyPassword=require('./config/modifyPassword');
 var unlock=require('./config/unlock');
 var logout=require('./config/logout');
 var getRoom=require('./config/getRoom');
+var getAllRoom=require('./config/getAllRoom');
 var addRoom=require('./config/addRoom');
 var deleteRoom=require('./config/deleteRoom');
 var modifyRoom=require('./config/modifyRoom');
+var openRoom=require('./config/openRoom');
+var checkOut=require('./config/checkOut');
 
 var server = app.listen(3000, function () {
     var host = server.address().address;
@@ -103,7 +106,10 @@ app.get('/check',function(req,res){
 
 app.post('/unlock',unlock);  //验证解锁密码
 app.post('/logout',logout);  //用户注销
-app.get('/getRoom',getRoom);   //获取房间信息
+app.get('/getRoom',getRoom);   //获取未开房间和已开房间
+app.get('/getAllRoom',getAllRoom);   //获取所有的房间信息
 app.post('/addRoom',addRoom);   //添加房间
 app.del('/deleteRoom',deleteRoom);    //删除房间
-app.post('/modifyRoom',modifyRoom);
+app.post('/modifyRoom',modifyRoom);   //修改放假信息
+app.post('/openRoom',openRoom);      //开房
+app.post('/checkOut',checkOut);      //退房

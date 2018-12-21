@@ -14,7 +14,10 @@ var unlock=function(req,res){
       console.log(err)
       res.status(203).json({code:203,msg:err})
     }else{
-      var hashPassword=crypto.createHash('md5').update(req.body.lockPassword).digest('hex');
+      // var hashPassword=crypto.createHash('md5').update(req.body.lockPassword).digest('hex');
+      let t1=crypto.createCipher('aes192','hotelAdmin');   //对密码进行加密
+      let hashPassword=t1.update(req.body.lockPassword,'utf8','hex');
+      hashPassword+=t1.final('hex');
       if(hashPassword!==result[0].user_password||result.length===0){
         res.status(202).json({code:202,msg:'密码错误'})
       }else{
