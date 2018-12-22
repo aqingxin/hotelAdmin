@@ -33,7 +33,7 @@ export default {
         this.$message({
           showClose:true,
           message:'网络请求错误',
-          type:'success'
+          type:'error'
         })
       })
     },

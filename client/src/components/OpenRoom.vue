@@ -74,24 +74,65 @@
           <template slot-scope="scope">
             <el-button size="mini" >加时</el-button>
             <el-button size="mini" @click="checkOut(scope.row.room_id)">退房</el-button>
-            <el-button size="mini" >换房</el-button>
+            <el-button size="mini" @click="changeRoom(scope.row.room_num,scope.row.id)">换房</el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
+    <el-dialog title="换房" :visible.sync="dialogFormVisible">
+      <el-form :model="form">
+        <el-form-item :label="'从'+roomNum+'换到'" :label-width="formLabelWidth">
+          <el-select v-model="form.region" placeholder="请选择换房房号">
+            <el-option v-for="(item,index) in room" :key="index" :label=item.room_num :value=item.id></el-option>
+            <!-- <el-option label="区域二" value="beijing"></el-option> -->
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="sendChangeRoom">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 
 <script>
 export default {
+  data(){
+    return {
+      dialogFormVisible: false,   //换房时的弹框
+      form: {     //换房时的表单
+        region: '',
+      },
+      formLabelWidth: '120px', 
+      roomNum:'',   //旧房间的房间号
+      changeId:'',   //开房记录的id
+      formLabelText:'',      
+      room:[]  //所有房间
+    }
+  },
   props:{
     openRoom:{
       type:Array
     }
   },
+  mounted(){
+    this.getRoomNumer();
+  },
   methods:{
-    checkOut(roomid){
+    getRoomNumer(){   //获取所有的房间，用来显示房间号
+      this.$http.get('http://10.21.40.155:3000/getRoom').then(res=>{
+        this.room=res.data.notOpen
+      }).catch(err=>{
+        this.$message({
+          showClose:true,
+          message:'网络请求失败',
+          type:'error'
+        })
+      })
+    },
+    checkOut(roomid){   //简单的退房操作
       // console.log(roomid)
       this.$confirm('确定退房？', '提示', {   //点击退房时弹框提示
         confirmButtonText: '确定',
@@ -126,6 +167,42 @@ export default {
       }).catch(() => {
                 
       });
+    },
+    changeRoom(roomNum,id){   //弹框表单
+      this.roomNum=roomNum;
+      this.changeId=id;
+      this.dialogFormVisible=true;
+    },
+    sendChangeRoom(){    //换房操作
+      this.dialogFormVisible=false;
+      let params=new URLSearchParams();
+      params.append('newRoomId',this.form.region);   //根据即将要换的房间id、当前开房记录id、及旧房间id
+      params.append('oldRoomNum',this.roomNum);
+      params.append('changeId',this.changeId);
+      this.$http.post('http://10.21.40.155:3000/changeRoom',params).then(res=>{
+        // console.log(res)
+        if(res.data.code===200){
+          this.$message({
+            showClose:true,
+            message:'换房成功',
+            type:'success'
+          })
+          this.dialogFormVisible=false;
+          this.$emit('reloadRoom')
+        }else{
+          this.$message({
+            showClose:true,
+            message:'换房失败',
+            type:'error'
+          })
+        }
+      }).catch(err=>{
+        this.$message({
+          showClose:true,
+          message:'网络请求失败',
+          type:'error'
+        })
+      })
     }
   }
 }
