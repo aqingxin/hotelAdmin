@@ -16,6 +16,7 @@ var deleteRoom=require('./config/deleteRoom');
 var modifyRoom=require('./config/modifyRoom');
 var openRoom=require('./config/openRoom');
 var checkOut=require('./config/checkOut');
+var changeRoom=require('./config/changeRoom');
 
 var server = app.listen(3000, function () {
     var host = server.address().address;
@@ -113,3 +114,4 @@ app.del('/deleteRoom',deleteRoom);    //删除房间
 app.post('/modifyRoom',modifyRoom);   //修改放假信息
 app.post('/openRoom',openRoom);      //开房
 app.post('/checkOut',checkOut);      //退房
+app.post('/changeRoom',changeRoom)   //换房
