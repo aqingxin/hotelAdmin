@@ -13,10 +13,8 @@ var changeRoom=function(req,res){
   let updateData1=[1,req.body.newRoomId];
   let updateRoom2="UPDATE room SET room_status=? WHERE room_num=?";
   let updateData2=[0,req.body.oldRoomNum];
-  console.log(0)
   connection.query(changeRoomSql,changeData,function(err,result){
     if(err){
-      console.log(err);
       res.status(210).json({code:210,msg:err})
     }else{
       connection.query(updateRoom1,updateData1,function(error,results){

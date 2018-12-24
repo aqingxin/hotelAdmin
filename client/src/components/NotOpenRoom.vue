@@ -47,24 +47,26 @@
         </el-table-column>
       </el-table>
     </div>
-    <el-dialog title="录入开房信息" :visible.sync="dialogFormVisible">
-      <el-form :model="form" :inline="true" label-position="right">
-        <el-form-item label="房号" :label-width="formLabelWidth">
+    <el-dialog title="录入开房信息" :visible.sync="dialogFormVisible" center>
+      <el-form :model="form" :inline="true" label-position="right" label-width="120px">
+        <el-form-item label="房号">
           <el-input v-model="form.roomNum" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="姓名" :label-width="formLabelWidth">
+        
+        <el-form-item label="姓名">
           <el-input v-model="form.name" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="性别" :label-width="formLabelWidth">
+        <el-form-item label="性别">
           <el-select v-model="form.gender" placeholder="请选择性别">
             <el-option label="男" value="男"></el-option>
             <el-option label="女" value="女"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="证件号" :label-width="formLabelWidth">
+        <el-form-item label="证件号">
           <el-input v-model="form.certificates" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="开出时间" :label-width="formLabelWidth">
+        
+        <el-form-item label="开出时间">
           <el-date-picker
             type="datetime"
             placeholder="选择日期时间"
@@ -73,23 +75,24 @@
             @change="dateChange">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="到期时间" :label-width="formLabelWidth">
+        <el-form-item label="到期时间">
           <el-date-picker
             type="datetime"
             placeholder="选择日期时间"
             value-format="yyyy-MM-dd HH:mm:ss"
             v-model="form.date2"
-            @change="expireChange">
+            @change="paymentChange">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="房费" :label-width="formLabelWidth">
+        <el-form-item label="房费">
           <el-input v-model="form.roomMoney" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="备注" :label-width="formLabelWidth">
-          <el-input v-model="form.remarks" autocomplete="off"></el-input>
+        <el-form-item label="押金">
+          <el-input v-model="form.deposit" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
+        <el-button @click="addPeople">增加房间人物信息</el-button>
         <el-button @click="dialogFormVisible = false">取 消</el-button>
         <el-button type="primary" @click="sendOpenRoom">确 定</el-button>
       </div>
@@ -103,21 +106,23 @@ export default {
     return {
       form: {
         roomNum:'',   //房号
+
         name: '',     //姓名
+
         gender:'',    //性别
         certificates: '',   //证件号
         date1: '',    //开出时间
         date2: '',    //到期时间  
         roomMoney: '',   //房费
-        remarks: '',    //备注
+        deposit: '',    //备注
       },
-      formLabelWidth: '120px',
       dialogFormVisible: false,
       openRoomForm: {
 
       },
       opnRoomId:null,
-      room_money:null
+      room_money:null,
+      peopleNum:1
     }
   },
   props:{
@@ -132,6 +137,19 @@ export default {
       this.form.roomMoney=room.room_money;
       this.room_money=room.room_money;
       this.dialogFormVisible=true;
+      switch(room.room_type){
+        case "单人间":
+          this.peopleNum=1;
+        break;
+        case "双人间":
+          this.peopleNum=2;
+        break;
+        case "三人间":
+          this.peopleNum=3;
+        break;
+        default:
+          this.peopleNum=1;
+      }
     },
     sendOpenRoom(){
       let params=new URLSearchParams();
@@ -142,7 +160,7 @@ export default {
       params.append('date1',this.form.date1);
       params.append('date2',this.form.date2);
       params.append('roomMoney',this.form.roomMoney);
-      params.append('remarks',this.form.remarks);
+      params.append('deposit',this.form.deposit);
       this.$http.post('http://10.21.40.155:3000/openRoom',params).then(res=>{
         if(res.data.code===200){
           this.$message({
@@ -170,17 +188,23 @@ export default {
     dateChange(){   //设置到期默认时间
       var day=new Date(new Date().getTime()+24*60*60*1000);
       this.form.date2=`${day.getFullYear()}-${day.getMonth()+1}-${day.getDate()} 12:00:00`;
-      this.expireChange();
+      this.paymentChange();
     },
-    expireChange(){   //根据开房时间和到期时间的天差来动态计算需要的支付的费用
+    paymentChange(){   //根据开房时间和到期时间的天差来动态计算需要的支付的费用
       let date1=new Date(this.form.date1);
       let date2=new Date(this.form.date2);
       let date3=date2.getTime()-date1.getTime();
-      let days=Math.ceil(date3/(24*3600*1000));
+      let days=Math.ceil(date3/(24*3600*1000));   //向上取整，超过1天算2天
 
       this.form.roomMoney=days*this.room_money;
-    }
-  }
+      this.form.deposit=days*this.room_money+this.room_money;
+    },
+    addPeople(){
+      this.form.name.push({
+        value:''
+      })
+    },
+  },
 }
 </script>
 

@@ -101,12 +101,14 @@ export default {
   },
   mounted(){   
     let RememberUser=localStorage.getItem('RememberUser');     //进入页面时判断是否"记住我"这个用户，如果有，就填充表单
-    console.log(RememberUser)
     if(RememberUser!==null){
       let tmpUser=JSON.parse(RememberUser);
+
+      //根据给定的算法和密钥，创建并返回解密对象
       var decipher=crypto.createDecipher('aes192', 'hotelAdmin');
       var tmpPass=decipher.update(tmpUser.password,"hex", "utf8");
       tmpPass+=decipher.final("utf8");
+
       this.loginRulesForm.name=tmpUser.user;
       this.loginRulesForm.password=tmpPass;
       this.checkBoxFlag=tmpUser.status
@@ -123,17 +125,20 @@ export default {
           // md5.update(this.loginRulesForm.password);
           // var pass = md5.digest('hex');
 
-          let t1=crypto.createCipher('aes192','hotelAdmin');   //对密码进行加密
-          let pass=t1.update(this.loginRulesForm.password,'utf8','hex');
-          pass+=t1.final('hex');
+          //根据给定的算法和密钥，创建并返回加密对象
+          let p1=crypto.createCipher('aes192','hotelAdmin');   //第二个参数为密钥，所有密钥都要相同
+          //输入数据为utf8格式，输出格式为hex
+          let AesPassword=p1.update(this.loginRulesForm.password,'utf8','hex');  
+          //返回所有加密过的内容
+          AesPassword+=p1.final('hex');
           
           if(this.checkBoxFlag){   //记住密码
-            localStorage.setItem('RememberUser',JSON.stringify({user:this.loginRulesForm.name,password:pass,status:this.checkBoxFlag}))
+            localStorage.setItem('RememberUser',JSON.stringify({user:this.loginRulesForm.name,password:AesPassword,status:this.checkBoxFlag}))
           }
 
           var params = new URLSearchParams();
           params.append('username',this.loginRulesForm.name);
-          params.append('password',pass);
+          params.append('password',AesPassword);
           let message='登陆正确';
           let type='success';
           this.$http.post('http://10.21.40.155:3000/login',params,{withCredentials : true}).then(res=>{  //发起请求
@@ -157,9 +162,8 @@ export default {
             this.bBtnLoginStatus=false;
             let userLogin={
               username:this.loginRulesForm.name,
-              password:pass
+              password:AesPassword
             }
-            // window.localStorage.setItem('userLogin',JSON.stringify(userLogin));
             
           }).catch(err=>{
             this.$message({

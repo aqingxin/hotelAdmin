@@ -57,6 +57,12 @@
           width="100">
         </el-table-column>
         <el-table-column
+          prop="deposit"
+          label="押金"
+          align="center"
+          width="180">
+        </el-table-column>
+        <el-table-column
           prop="open_date"
           label="开房时间"
           align="center"
@@ -93,6 +99,13 @@
         <el-button type="primary" @click="sendChangeRoom">确 定</el-button>
       </div>
     </el-dialog>
+    <el-dialog title="退房" :visible.sync="checkOutVisible">
+      <el-form :model="checkOutForm" label-width="80px">
+        <el-form-item label="收取房费">
+          <el-input :model="checkOutForm.money"></el-input>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
@@ -109,7 +122,11 @@ export default {
       roomNum:'',   //旧房间的房间号
       changeId:'',   //开房记录的id
       formLabelText:'',      
-      room:[]  //所有房间
+      room:[],  //所有房间，
+      checkOutVisible:false,
+      checkOutForm:{
+        money:''
+      }
     }
   },
   props:{
@@ -134,6 +151,7 @@ export default {
     },
     checkOut(roomid){   //简单的退房操作
       // console.log(roomid)
+      this.checkOutVisible=true;
       this.$confirm('确定退房？', '提示', {   //点击退房时弹框提示
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -142,14 +160,13 @@ export default {
         let params=new URLSearchParams();
         params.append('roomid',roomid);
         this.$http.post('http://10.21.40.155:3000/checkOut',params).then(res=>{
-          // console.log(res)
           if(res.data.code===200){
             this.$message({
               showClose:true,
               message:res.data.msg,
               type:'success'
             })
-            this.$emit('reloadRoom')
+            this.$emit('reloadRoom');
           }else{
             this.$message({
               showClose:true,
@@ -187,7 +204,9 @@ export default {
             message:'换房成功',
             type:'success'
           })
+          this.getRoomNumer();
           this.dialogFormVisible=false;
+          this.form.region='';
           this.$emit('reloadRoom')
         }else{
           this.$message({
@@ -204,6 +223,6 @@ export default {
         })
       })
     }
-  }
+  },
 }
 </script>

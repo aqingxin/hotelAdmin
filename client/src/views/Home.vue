@@ -66,4 +66,19 @@ export default {
   border-radius:3px;
   overflow-y: auto;
 }
+.main::-webkit-scrollbar {
+  width: 5px;     /*高宽分别对应横竖滚动条的尺寸*/
+  height: 1px;
+}
+.main::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+  background: #CCCCCC;
+}
+
+.main::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  background: #EDEDED;
+}
 </style>

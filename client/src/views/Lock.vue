@@ -41,9 +41,12 @@ export default {
           // var md5=crypto.createHash('md5');    //对密码进行加密
           // md5.update(this.lockForm.lockPassword);
           // var pass = md5.digest('hex');
-          let t1=crypto.createCipher('aes192','hotelAdmin');   //对密码进行加密
+
+          let t1=crypto.createCipher('aes192','hotelAdmin');   //对密码进行加密  第二个参数为密钥，
           let pass=t1.update(this.lockForm.lockPassword,'utf8','hex');
           pass+=t1.final('hex');
+
+
           var params = new URLSearchParams();
           params.append('lockPassword',pass);
           this.$http.post('http://10.21.40.155:3000/unlock',params).then(res=>{
