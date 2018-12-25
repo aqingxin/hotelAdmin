@@ -7,8 +7,8 @@ var connection=mysql.createConnection({   //创建数据库连接
 })
 
 var checkOut=function(req,res){
-  let checkOutSql="DELETE FROM openroom WHERE room_id=?";
-  let checkOutData=[req.body.roomid];
+  let checkOutSql="UPDATE openroom SET status=? WHERE room_id=?";
+  let checkOutData=[1,req.body.roomid];
   connection.query(checkOutSql,checkOutData,function(err,result){
     if(err){
       res.status(210).json({code:210,msg:'退房失败'})

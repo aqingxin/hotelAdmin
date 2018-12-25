@@ -8,7 +8,7 @@ var connection=mysql.createConnection({   //创建数据库连接
 
 var getRoom=function(req,res){
   let getSql="SELECT * FROM room WHERE room_status=0";
-  let joinSql="SELECT openroom.id,openroom.name,openroom.gender,openroom.certificates,openroom.open_date,openroom.expire_date,openroom.collect_money,openroom.deposit,room.room_num,room.room_type,room.room_money,room.id AS allRoomId FROM openroom INNER JOIN room ON openroom.room_id=room.id";
+  let joinSql="SELECT openroom.id,openroom.name,openroom.gender,openroom.certificates,openroom.open_date,openroom.expire_date,openroom.collect_money,openroom.deposit,room.room_num,room.room_type,room.room_money,room.id AS allRoomId FROM openroom INNER JOIN room ON openroom.room_id=room.id WHERE openroom.status=0";
   connection.query(getSql,function(err,result){
     if(err){
       console.log(err)
