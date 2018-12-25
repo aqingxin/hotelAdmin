@@ -17,6 +17,8 @@ var modifyRoom=require('./config/modifyRoom');
 var openRoom=require('./config/openRoom');
 var checkOut=require('./config/checkOut');
 var changeRoom=require('./config/changeRoom');
+var getHistory=require('./config/getHistory');
+var searchHistory=require('./config/searchHistory');
 
 var server = app.listen(3000, function () {
     var host = server.address().address;
@@ -115,3 +117,5 @@ app.post('/modifyRoom',modifyRoom);   //修改放假信息
 app.post('/openRoom',openRoom);      //开房
 app.post('/checkOut',checkOut);      //退房
 app.post('/changeRoom',changeRoom)   //换房
+app.get('/getHistory',getHistory);   //获取历史记录
+app.post('/searchHistory',searchHistory);

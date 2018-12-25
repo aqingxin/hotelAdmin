@@ -20,10 +20,13 @@
           <span slot="title">开退房管理</span>
         </el-menu-item>
       </router-link>
-      <el-menu-item index="3">
-        <i class="el-icon-document"></i>
-        <span slot="title">历史纪录查询</span>
-      </el-menu-item>
+      <router-link to='/history'>
+        <el-menu-item index="3">
+          <i class="el-icon-menu"></i>
+          <span slot="title">历史纪录查询</span>
+        </el-menu-item>
+      </router-link>
+      
       <el-menu-item index="4">
         <i class="el-icon-setting"></i>
         <span slot="title">收入统计汇总</span>
@@ -54,6 +57,9 @@
         break;
         case '/test':
           this.bMenuIndex='2';
+        break;
+        case '/history':
+          this.bMenuIndex='3';
         break;
         case '/roomInfor':
           this.bMenuIndex='5';

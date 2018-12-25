@@ -6,6 +6,7 @@ import Lock from './views/Lock.vue'
 import Main from './components/Main.vue'
 import Test from './views/Test.vue'
 import RoomInfor from './views/RoomInformation.vue'
+import History from './views/History.vue'
 
 Vue.use(Router)
 
@@ -38,6 +39,14 @@ const routes=[
         path: '/roomInfor',
         name: 'RoomInfor',
         component: RoomInfor,
+        meta:{
+          requireAuth: true
+        },
+      },
+      {
+        path: '/history',
+        name: 'History',
+        component: History,
         meta:{
           requireAuth: true
         },

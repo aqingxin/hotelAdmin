@@ -1,0 +1,152 @@
+<template>
+  <div class="histoty">
+    <div class="history-search">
+      <el-form :inline="true" :model="searchForm" :rules="searchRules" ref="nSearchForm">
+          <el-form-item label="姓名" prop="name">
+            <el-input 
+              placeholder="请输入姓名" 
+              v-model="searchForm.name"
+            >
+            </el-input>
+          </el-form-item>
+          <el-form-item label="入住日期" prop="date">
+            <el-date-picker
+              type="date"
+              placeholder="选择日期"
+              value-format="yyyy-MM-dd"
+              v-model="searchForm.date"
+            >
+            </el-date-picker>
+          </el-form-item>
+          <el-button type="primary" @click="search('nSearchForm')">搜索</el-button>
+      </el-form>
+    </div>
+    <div class="history-table">
+      <el-table 
+      :data="historyData" 
+      style="width:100%"
+      border>
+        <el-table-column 
+          type="index"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column 
+          label="房号"
+          prop="room_num"
+          align="center"
+        >
+        </el-table-column>
+
+        <el-table-column 
+          label="类型"
+          prop="room_type"
+          align="center"
+        >
+        </el-table-column>
+
+        <el-table-column 
+          label="总费用"
+          prop="room_type"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column 
+          label="开房时间"
+          prop="open_date"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column 
+          label="退房时间"
+          prop="expire_date"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column 
+          label="姓名"
+          prop="name"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column 
+          label="性别"
+          prop="gender"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column 
+          label="证件号"
+          prop="certificates"
+          align="center"
+        >
+        </el-table-column>
+      </el-table>
+    </div>
+  </div>
+</template>
+
+
+<script>
+export default {
+  data() {
+    return {
+      historyData:[],
+      searchForm:{
+        name:'',
+        date:''
+      },
+      searchRules:{
+        name:[
+          { required: true, message: '请输入姓名', trigger: 'blur' },
+        ],
+        date:[
+          { required: true, message: '请选择日期', trigger: 'blur' },
+        ]
+      }
+    }
+  },
+  mounted(){
+    this.getHistory();
+  },
+  methods:{
+    getHistory(){
+      this.$http.get('http://10.21.40.155:3000/getHistory').then(res=>{
+        // console.log(res)
+        this.historyData=res.data.msg;
+      }).catch(err=>{
+        this.$message({
+          showClose:true,
+          message:"网络请求失败",
+          type:'error'
+        })
+      })
+    },
+    search(form){
+      this.$refs[form].validate((valid)=>{
+        if(valid){
+          let params = new URLSearchParams();
+          params.append('name',this.searchForm.name);
+          params.append('date',this.searchForm.date);
+          this.$http.post('http://10.21.40.155:3000/searchHistory',params).then(res=>{
+            console.log(res)
+          }).catch(err=>{
+            this.$message({
+              showClose:true,
+              message:'网络请求失败',
+              type:'error'
+            })
+          })
+        }else{
+          this.$message({
+            showClose:true,
+            message:'请正确填写搜索表单',
+            type:'error'
+          })
+        }
+      })
+    }
+  }
+}
+</script>
+
