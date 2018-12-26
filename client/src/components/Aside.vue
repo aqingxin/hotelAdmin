@@ -26,11 +26,12 @@
           <span slot="title">历史纪录查询</span>
         </el-menu-item>
       </router-link>
-      
-      <el-menu-item index="4">
-        <i class="el-icon-setting"></i>
-        <span slot="title">收入统计汇总</span>
-      </el-menu-item>
+      <router-link to='/statistics'>
+        <el-menu-item index="4">
+          <i class="el-icon-setting"></i>
+          <span slot="title">收入统计汇总</span>
+        </el-menu-item>
+      </router-link>
       <router-link to='/roomInfor'>
         <el-menu-item index="5">
           <i class="el-icon-setting"></i>
@@ -60,6 +61,9 @@
         break;
         case '/history':
           this.bMenuIndex='3';
+        break;
+        case '/statistics':
+          this.bMenuIndex='4';
         break;
         case '/roomInfor':
           this.bMenuIndex='5';

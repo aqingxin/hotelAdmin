@@ -100,7 +100,7 @@
 export default {
   data() {
     return {
-      historyData:[],
+      historyData:[],    //所有的数据
       searchForm:{
         name:'张益达',
         date:'2018-12-24'
@@ -113,9 +113,9 @@ export default {
           { required: true, message: '请选择日期', trigger: 'blur' },
         ]
       },
-      currentPage:1,
-      pageSize:15,
-      showData:[]
+      currentPage:1,  //当前页码
+      pageSize:15,    //每页显示的数据数量
+      showData:[]     //显示出来的数据集合
     }
   },
   mounted(){
@@ -130,8 +130,8 @@ export default {
         // console.log(this.historyData.slice(0,10))
       })
     },
-    search(form){
-      this.$refs[form].validate((valid)=>{
+    search(form){   //搜索记录
+      this.$refs[form].validate((valid)=>{   //表单验证
         if(valid){
           let params = new URLSearchParams();
           params.append('name',this.searchForm.name);
@@ -140,7 +140,7 @@ export default {
             // console.log(res)
             if(res.data.code===200){
               this.historyData=res.data.msg;
-              
+              this.showData=this.historyData.slice(0,this.pageSize)
               this.$message({
                 showClose:true,
                 message:'搜索数据成功',
@@ -164,10 +164,14 @@ export default {
       })
     },
     jump(){
-      // console.log(1)
       this.showData=this.historyData.slice(this.pageSize*(this.currentPage-1),this.pageSize*(this.currentPage-1)+10)
     }
   }
 }
 </script>
 
+<style lang="less" scoped>
+  .block {
+    margin-top: 15px;
+  }
+</style>

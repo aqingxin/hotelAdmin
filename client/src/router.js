@@ -7,6 +7,7 @@ import Main from './components/Main.vue'
 import Test from './views/Test.vue'
 import RoomInfor from './views/RoomInformation.vue'
 import History from './views/History.vue'
+import Statistics from './views/Statistics.vue';
 
 Vue.use(Router)
 
@@ -50,6 +51,14 @@ const routes=[
         meta:{
           requireAuth: true
         },
+      },
+      {
+        path: '/statistics',
+        name: 'Statistics',
+        component: Statistics,
+        meta:{
+          requireAuth: true
+        },
       }
     ]
   },
@@ -65,6 +74,7 @@ const routes=[
     component: Lock,
     
   },
+  
 ]
 
 const router=new Router({

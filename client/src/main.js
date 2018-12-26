@@ -12,25 +12,25 @@ Vue.prototype.$http=axios;
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 
+
+//aixios拦截，请求响应
 axios.interceptors.response.use(
-  response => {
+  response => {   //响应结果为正确的情况下
     // console.log(ElementUI)
    
     return response;
   },
-  error => {
+  error => {    //错误的情况下，统一处理
     if(error.response){
-      console.log(error.response.status)
-      if(error.response.status===401){
-        console.log(2)
+      if(error.response.status===401){   //未登录情况
         ElementUI.Message({
           showClose:true,
           message:'未登录',
           type:'error',
         })
         window.localStorage.removeItem('loginToken')
-        router.push('/login')
-      }else{
+        router.push('/login')   
+      }else{    //其他情况下
         ElementUI.Message({
           showClose:true,
           message:'网络请求错误',
