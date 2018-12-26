@@ -230,14 +230,8 @@ export default {
   },
   methods:{
     getRoomNumer(){   //获取所有的房间，用来显示房间号
-      this.$http.get('http://10.21.40.155:3000/getRoom').then(res=>{
+      this.$http.get('http://10.21.40.155:3000/getRoom',).then(res=>{
         this.room=res.data.notOpen
-      }).catch(err=>{
-        this.$message({
-          showClose:true,
-          message:'网络请求失败',
-          type:'error'
-        })
       })
     },
     checkOut(room){   //简单的退房操作
@@ -275,12 +269,6 @@ export default {
             type:'error'
           })
         }
-      }).catch(err=>{
-        this.$message({
-          showClose:true,
-          message: '网络请求失败!',
-          type: 'error',
-        });
       })
     },
     changeRoom(roomNum,id){   //弹框表单
@@ -313,12 +301,6 @@ export default {
             type:'error'
           })
         }
-      }).catch(err=>{
-        this.$message({
-          showClose:true,
-          message:'网络请求失败',
-          type:'error'
-        })
       })
     }
   },

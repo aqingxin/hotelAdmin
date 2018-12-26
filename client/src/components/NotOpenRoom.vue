@@ -9,13 +9,14 @@
         <el-table-column
           type="index"
           align="center"
-          >
+        >
         </el-table-column>
         <el-table-column
           prop="room_num"
           label="房间号"
           align="center"
-          width="180">
+          width="180"
+        >
         </el-table-column>
         <el-table-column
           prop="room_type"
@@ -177,12 +178,6 @@ export default {
             type:'error'
           })
         }
-      }).catch(err=>{
-        this.$message({
-          showClose:true,
-          message:'网络请求失败',
-          type:'error'
-        })
       })
     },
     dateChange(){   //设置到期默认时间

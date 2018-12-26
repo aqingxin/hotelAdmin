@@ -110,12 +110,6 @@ export default {
     getRoom(){
       this.$http.get('http://10.21.40.155:3000/getAllRoom').then(res=>{   //获取房间信息
         this.roomData=res.data.msg
-      }).catch(err=>{
-        this.$message({
-          showClose:true,
-          message:'网络请求错误',
-          type:'error'
-        })
       })
     },
     sendRoom(){    //添加房间信息或者修改房间信息
@@ -142,12 +136,6 @@ export default {
           this.dialogFormVisible=false;
           this.getRoom();
         }
-      }).catch(err=>{
-        this.$message({
-          showClose:true,
-          message:"网络请求失败",
-          type:'error'
-        })
       })
     },
     deleteRoom(roomId){
@@ -178,12 +166,6 @@ export default {
               type:'error'
             })
           }
-        }).catch(err=>{
-          this.$message({
-            showClose:true,
-            message:'网络请求失败',
-            type:'error'
-          })
         })
       }).catch(()=>{})
     },

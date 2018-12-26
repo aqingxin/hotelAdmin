@@ -111,15 +111,9 @@ export default {
   },
   methods:{
     getHistory(){
-      this.$http.get('http://10.21.40.155:3000/getHistory').then(res=>{
+      this.$http.get('http://10.21.40.155:3000/getHistory',{withCredentials : true}).then(res=>{
         // console.log(res)
         this.historyData=res.data.msg;
-      }).catch(err=>{
-        this.$message({
-          showClose:true,
-          message:"网络请求失败",
-          type:'error'
-        })
       })
     },
     search(form){
@@ -144,12 +138,6 @@ export default {
                 type:'error'
               })
             }
-          }).catch(err=>{
-            this.$message({
-              showClose:true,
-              message:'网络请求失败',
-              type:'error'
-            })
           })
         }else{
           this.$message({

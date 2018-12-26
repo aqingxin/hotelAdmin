@@ -25,16 +25,10 @@ export default {
   },
   methods:{
     fGetRoom(){
-      this.$http.get('http://10.21.40.155:3000/getRoom').then(res=>{
+      this.$http.get('http://10.21.40.155:3000/getRoom',{withCredentials : true}).then(res=>{
         this.notOpened=res.data.notOpen;
         this.open=res.data.open;
         console.log(res)
-      }).catch(err=>{
-        this.$message({
-          showClose:true,
-          message:'网络请求错误',
-          type:'error'
-        })
       })
     },
   },

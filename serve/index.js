@@ -66,7 +66,7 @@ app.use(function(req,res,next){
     if(arr[1]==='login'||arr[1]==='modifyPassword'||arr[1]==='sendMail'||arr[1]==='unlock'){
       next();
     }else{
-      res.status(210).json({code:210,msg:'未登录'})
+      res.status(401).json({code:210,msg:'未登录'})
     }
   }
 })
