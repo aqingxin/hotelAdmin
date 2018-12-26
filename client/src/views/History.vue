@@ -23,7 +23,7 @@
     </div>
     <div class="history-table">
       <el-table 
-      :data="historyData" 
+      :data="showData" 
       style="width:100%"
       border>
         <el-table-column 
@@ -82,6 +82,15 @@
         >
         </el-table-column>
       </el-table>
+      <div class="block">
+        <el-pagination
+          @current-change="jump"
+          :current-page.sync="currentPage"
+          :page-size="15"
+          layout="prev, pager, next, jumper"
+          :total="historyData.length">
+        </el-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -103,7 +112,10 @@ export default {
         date:[
           { required: true, message: '请选择日期', trigger: 'blur' },
         ]
-      }
+      },
+      currentPage:1,
+      pageSize:15,
+      showData:[]
     }
   },
   mounted(){
@@ -114,6 +126,8 @@ export default {
       this.$http.get('http://10.21.40.155:3000/getHistory',{withCredentials : true}).then(res=>{
         // console.log(res)
         this.historyData=res.data.msg;
+        this.showData=this.historyData.slice(0,this.pageSize)
+        // console.log(this.historyData.slice(0,10))
       })
     },
     search(form){
@@ -126,6 +140,7 @@ export default {
             // console.log(res)
             if(res.data.code===200){
               this.historyData=res.data.msg;
+              
               this.$message({
                 showClose:true,
                 message:'搜索数据成功',
@@ -147,6 +162,10 @@ export default {
           })
         }
       })
+    },
+    jump(){
+      // console.log(1)
+      this.showData=this.historyData.slice(this.pageSize*(this.currentPage-1),this.pageSize*(this.currentPage-1)+10)
     }
   }
 }
