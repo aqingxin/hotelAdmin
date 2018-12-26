@@ -93,8 +93,8 @@ export default {
     return {
       historyData:[],
       searchForm:{
-        name:'',
-        date:''
+        name:'张益达',
+        date:'2018-12-24'
       },
       searchRules:{
         name:[
@@ -129,7 +129,21 @@ export default {
           params.append('name',this.searchForm.name);
           params.append('date',this.searchForm.date);
           this.$http.post('http://10.21.40.155:3000/searchHistory',params).then(res=>{
-            console.log(res)
+            // console.log(res)
+            if(res.data.code===200){
+              this.historyData=res.data.msg;
+              this.$message({
+                showClose:true,
+                message:'搜索数据成功',
+                type:'success'
+              })
+            }else{
+              this.$message({
+                showClose:true,
+                message:'搜索数据失败',
+                type:'error'
+              })
+            }
           }).catch(err=>{
             this.$message({
               showClose:true,
