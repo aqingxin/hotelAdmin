@@ -21,7 +21,7 @@ var getHistory=require('./config/getHistory');
 var searchHistory=require('./config/searchHistory');
 var getStatistic=require('./config/getStatistics');
 
-var connection=require('./connectionDb');  //数据库连接
+var connection=require('./config/connectionDb');  //数据库连接
 
 var server = app.listen(3000, function () {
     var host = server.address().address;
