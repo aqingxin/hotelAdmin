@@ -182,7 +182,12 @@ export default {
     },
     dateChange(){   //设置到期默认时间
       var day=new Date(new Date().getTime()+24*60*60*1000);
-      this.form.date2=`${day.getFullYear()}-${day.getMonth()+1}-${day.getDate()} 12:00:00`;
+      let month=day.getMonth()+1;
+      let date=day.getDate();
+      month=month<10?'0'+Number(month):month;   //小于10情况
+      date=date<10?'0'+date:date;
+
+      this.form.date2=`${day.getFullYear()}-${month}-${date} 12:00:00`;
       this.paymentChange();
     },
     paymentChange(){   //根据开房时间和到期时间的天差来动态计算需要的支付的费用

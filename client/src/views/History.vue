@@ -164,7 +164,7 @@ export default {
       })
     },
     jump(){
-      this.showData=this.historyData.slice(this.pageSize*(this.currentPage-1),this.pageSize*(this.currentPage-1)+10)
+      this.showData=this.historyData.slice(this.pageSize*(this.currentPage-1),this.pageSize*(this.currentPage-1)+15)
     }
   }
 }

@@ -252,7 +252,9 @@ export default {
     sendCheckOutRoom(){
       // console.log(this.checkOutInfo)
       let params=new URLSearchParams();
-      params.append('roomid',this.checkOutInfo[0].allRoomId);
+      params.append('roomid',this.checkOutInfo[0].id);
+      params.append('allRoomId',this.checkOutInfo[0].allRoomId);
+      params.append('income',this.checkOutForm.AllMoney);
       this.$http.post('http://10.21.40.155:3000/checkOut',params).then(res=>{
         if(res.data.code===200){
           this.$message({

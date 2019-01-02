@@ -89,14 +89,14 @@ export default {
               this.$message({
                 showClose:true,
                 message:res.data.msg,
-                type:'err'
+                type:'error'
               })
             }
           }).catch(err=>{
             this.$message({
                 showClose:true,
                 message:'网络请求失败',
-                type:'err'
+                type:'error'
               })
           })
         break;

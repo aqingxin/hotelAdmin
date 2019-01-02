@@ -13,11 +13,9 @@ Vue.config.productionTip = false;
 Vue.use(ElementUI);
 
 
-//aixios拦截，请求响应
+//axios拦截，请求响应
 axios.interceptors.response.use(
   response => {   //响应结果为正确的情况下
-    // console.log(ElementUI)
-   
     return response;
   },
   error => {    //错误的情况下，统一处理
@@ -38,7 +36,6 @@ axios.interceptors.response.use(
         })
       }
     }
-    // return Promise.reject(error)
   }
 )
 
