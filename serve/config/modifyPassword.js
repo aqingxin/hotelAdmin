@@ -1,11 +1,5 @@
 var crypto=require('crypto');
-const mysql=require('mysql');
-var connection=mysql.createConnection({   //创建数据库连接
-	host:'localhost',
-	user:'root',
-	password:'',
-	database:'hotel',
-})
+var connection=require('./connectionDb');
 
 modifyPassword=function(req,res){
   if(req.session.validateCode===undefined){

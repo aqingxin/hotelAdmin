@@ -1,6 +1,6 @@
 const express=require('express');
 const app=express();
-const mysql=require('mysql');
+// const mysql=require('mysql');
 var cookieParser=require('cookie-parser');
 var session=require('express-session');
 var bodyParser=require('body-parser');
@@ -19,6 +19,9 @@ var checkOut=require('./config/checkOut');
 var changeRoom=require('./config/changeRoom');
 var getHistory=require('./config/getHistory');
 var searchHistory=require('./config/searchHistory');
+var getStatistic=require('./config/getStatistics');
+
+var connection=require('./connectionDb');  //数据库连接
 
 var server = app.listen(3000, function () {
     var host = server.address().address;
@@ -48,12 +51,12 @@ app.use(session({      //使用session
 }));
 
 
-var connection=mysql.createConnection({   //创建数据库连接
-	host:'localhost',
-	user:'root',
-	password:'',
-	database:'hotel',
-})
+// var connection=mysql.createConnection({   //创建数据库连接
+// 	host:'localhost',
+// 	user:'root',
+// 	password:'',
+// 	database:'hotel',
+// })
 
 app.use(function(req,res,next){
   if(req.session.username){
@@ -118,4 +121,5 @@ app.post('/openRoom',openRoom);      //开房
 app.post('/checkOut',checkOut);      //退房
 app.post('/changeRoom',changeRoom)   //换房
 app.get('/getHistory',getHistory);   //获取历史记录
-app.post('/searchHistory',searchHistory);
+app.post('/searchHistory',searchHistory);   //搜索历史记录
+app.get('/getStatistic',getStatistic);     //获取收入统计数据

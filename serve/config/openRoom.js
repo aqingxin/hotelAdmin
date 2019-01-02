@@ -1,10 +1,4 @@
-const mysql=require('mysql');
-var connection=mysql.createConnection({   //创建数据库连接
-	host:'localhost',
-	user:'root',
-	password:'',
-	database:'hotel',
-})
+var connection=require('./connectionDb');
 
 var openRoom=function(req,res){
   let insertSql="INSERT INTO `openroom` (room_id,name,gender,certificates,open_date,expire_date,collect_money,deposit) VALUES (?,?,?,?,?,?,?,?)";
