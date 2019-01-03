@@ -1,12 +1,12 @@
 <template>
-  <el-aside style="width:240px;height:100%;">
+  <el-aside :style="`width:${asideStyle}px;height:100%;`">
     <el-menu 
       :default-active="bMenuIndex"
       class="el-menu-vertical-demo"
-      @open="handleOpen"
-      @close="handleClose"
       background-color="#556D84"
-      text-color="#fff" 
+      text-color="#fff"
+      :collapse="bAsideStatus"
+      :show-timeout="300"
     >
       <router-link to='/'>
         <el-menu-item index="1">
@@ -44,42 +44,54 @@
 
 
 <script>
-  export default {
-    data(){
-      return {
-        bMenuIndex:'1'
-      }
-    },
-    mounted(){
-      let router=this.$route.path;
-      switch(router){
-        case '/':
-          this.bMenuIndex='1';
-        break;
-        case '/test':
-          this.bMenuIndex='2';
-        break;
-        case '/history':
-          this.bMenuIndex='3';
-        break;
-        case '/statistics':
-          this.bMenuIndex='4';
-        break;
-        case '/roomInfor':
-          this.bMenuIndex='5';
-        break;
-        default:
-          this.bMenuIndex='1';
-        
-      }
-    },
-    methods: {
-      handleOpen(key, keyPath) {
-        console.log(key, keyPath);
-      },
-      handleClose(key, keyPath) {
-        console.log(key, keyPath);
-      }
+import bus from '../assets/bus.js';
+export default {
+  data(){
+    return {
+      bMenuIndex:'1',
+      bAsideStatus:false,
+      asideStyle:240
     }
+  },
+  mounted(){
+    let router=this.$route.path;
+    switch(router){
+      case '/':
+        this.bMenuIndex='1';
+      break;
+      case '/test':
+        this.bMenuIndex='2';
+      break;
+      case '/history':
+        this.bMenuIndex='3';
+      break;
+      case '/statistics':
+        this.bMenuIndex='4';
+      break;
+      case '/roomInfor':
+        this.bMenuIndex='5';
+      break;
+      default:
+        this.bMenuIndex='1';
+    }
+    this.bAsideStatus=window.localStorage.getItem('asideStatus');
+    this.bAsideStatus=this.bAsideStatus==='false'?false:true;
+    if(this.bAsideStatus){
+      this.asideStyle=65;
+    }else{
+      this.asideStyle=240;
+    }
+    bus.$on('changeStatus',(data)=>{
+      this.bAsideStatus=data;
+      if(this.bAsideStatus){
+        this.asideStyle=65;
+      }else{
+        this.asideStyle=240;
+      }
+    })
+  },
+  methods: {
+    
   }
+}
 </script>

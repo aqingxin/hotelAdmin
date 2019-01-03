@@ -183,12 +183,6 @@ export default {
                 shadowColor: 'rgba(0, 0, 0, 0.5)'
               }
             },
-
-            animationType: 'scale',
-            animationEasing: 'elasticOut',
-            animationDelay: function (idx) {
-                return Math.random() * 200;
-            }
           }
         ]
       })
@@ -225,43 +219,6 @@ export default {
           }
         }]
       })
-      // myRadar.setOption({
-      //   title:{
-      //     text:'售出房间最多类型'
-      //   },
-      //   tooltip:{},
-      //   radar:{
-      //     name:{
-      //       textStyle:{
-      //         color:'#fff',
-      //         backgroundColor:'#999',
-      //         borderRadius:.3,
-      //         padding:[3,5]
-      //       },
-      //     },
-      //     indicator:[
-      //       {name:'单人间',max:100},
-      //       {name:'双人间',max:100},
-      //       {name:'三人间',max:100},
-      //       // {name:'商务间',max:100},
-      //       // {name:'总统间',max:100},
-      //     ]
-      //   },
-      //   series: [{
-      //     name: '房间类型',
-      //     type: 'radar',
-      //     // areaStyle: {normal: {}},
-      //     data : [
-      //         {
-      //           value : [43, 100, 20],
-      //         },
-      //     ],
-      //     itemStyle:{
-      //         color:'#37A2DA'
-      //       },
-      //   }]
-      // })
-
     }
   }
 }

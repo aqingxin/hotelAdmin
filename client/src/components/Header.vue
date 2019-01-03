@@ -3,7 +3,7 @@
     <div class="header">
       <div class="header-left">
         <img src="../assets/images/logo.png" alt="logo">
-        <i class="icon-menu" style=""></i>
+        <i class="icon-menu" style="" @click="changeAside"></i>
       </div>
       <div class="header-right">
         <div class="svg-icon-div" @click="fFullScreen">
@@ -31,11 +31,18 @@
 </template>
 
 <script>
+import bus from '../assets/bus.js';
 export default {
   data(){
     return {
-      bFullScreen:false
+      bFullScreen:false,
+      asideStatus:false,
     }
+  },
+  mounted(){
+    this.asideStatus=window.localStorage.getItem('asideStatus');
+    this.asideStatus=this.asideStatus==='false'?false:true;
+    console.log(this.asideStatus)
   },
   methods:{
     fFullScreen(){    //全屏事件
@@ -102,6 +109,18 @@ export default {
         break;
       }
     },
+    changeAside(){
+      this.asideStatus=!this.asideStatus;
+      if(this.asideStatus){
+        console.log(1)
+        bus.$emit('changeStatus',true)
+        window.localStorage.setItem('asideStatus',true)
+      }else{
+        console.log(2)
+        bus.$emit('changeStatus',false)
+        window.localStorage.setItem('asideStatus',false)
+      }
+    }
   }
 }
 </script>
