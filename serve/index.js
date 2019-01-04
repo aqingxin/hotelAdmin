@@ -20,6 +20,7 @@ var changeRoom=require('./config/changeRoom');
 var getHistory=require('./config/getHistory');
 var searchHistory=require('./config/searchHistory');
 var getStatistic=require('./config/getStatistics');
+var getHomeData=require('./config/getHomeData');
 
 var connection=require('./config/connectionDb');  //数据库连接
 
@@ -58,7 +59,7 @@ app.use(session({      //使用session
 // 	database:'hotel',
 // })
 
-app.use(function(req,res,next){
+app.use(function(req,res,next){   //对所有的前端请求进行判断有无登录用户
   if(req.session.username){
     next();
   }else{
@@ -123,3 +124,4 @@ app.post('/changeRoom',changeRoom)   //换房
 app.get('/getHistory',getHistory);   //获取历史记录
 app.post('/searchHistory',searchHistory);   //搜索历史记录
 app.get('/getStatistic',getStatistic);     //获取收入统计数据
+app.get('/getHomeData',getHomeData);

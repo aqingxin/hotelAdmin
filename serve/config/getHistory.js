@@ -8,7 +8,7 @@ var connection=mysql.createConnection({   //创建数据库连接
 
 
 var getHistory=function(req,res){
-  let selsectSql="SELECT history.id,history.name,history.gender,history.certificates,history.open_date,history.expire_date,history.collect_money,history.deposit,room.room_num,room.room_type,room.room_money,room.id AS allRoomId FROM history INNER JOIN room ON history.room_id=room.id";
+  let selsectSql="SELECT history.id,history.name,history.gender,history.certificates,history.open_date,history.expire_date,history.collect_money,history.deposit,history.income,room.room_num,room.room_type,room.room_money,room.id AS allRoomId FROM history INNER JOIN room ON history.room_id=room.id";
   connection.query(selsectSql,function(err,result){
     if(err){
       console.log(err);
