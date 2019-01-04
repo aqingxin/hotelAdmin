@@ -2,8 +2,8 @@
   <div class="statistics">
     <div id="show" style='width：100%;height:400px'></div>
     <div class="bottom-echarts">
-      <div id="pie" style="width:45%;height:500px;"></div>
-      <div id="radar" style="width:45%;height:500px;"></div>
+      <div id="pie" style="width:49.5%;height:500px;"></div>
+      <div id="radar" style="width:49.5%;height:500px;"></div>
     </div>
   </div>
 </template>
@@ -113,6 +113,7 @@ export default {
         series: [{
             name: '收入',
             type: 'line',
+            center:['50%','50%'],
             data: _this.seriesData,
             itemStyle:{
               color:'#37A2DA'
@@ -126,7 +127,6 @@ export default {
       let _this=this;
       let myPie=echarts.init(document.getElementById('pie'));
       myPie.setOption({
-        backgroundColor:'#fff',
         title: {
           text: '收入占比',
           left: 'left',
@@ -225,6 +225,16 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  .echartsStyle {
+    background: #fff;
+    border-radius: 3px;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+  }
+  #show,#pie,#radar {
+    &:extend(.echartsStyle);
+  }
   .bottom-echarts {
     width: 100%;
     display: flex;

@@ -47,7 +47,7 @@
 
         <el-table-column 
           label="总费用"
-          prop="room_type"
+          prop="income"
           align="center"
         >
         </el-table-column>

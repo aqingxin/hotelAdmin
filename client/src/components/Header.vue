@@ -41,8 +41,12 @@ export default {
   },
   mounted(){
     this.asideStatus=window.localStorage.getItem('asideStatus');
-    this.asideStatus=this.asideStatus==='false'?false:true;
-    console.log(this.asideStatus)
+    if(this.asideStatus===null){
+      this.asideStatus=false;
+    }else{
+      this.asideStatus=this.asideStatus==='false'?false:true;
+    }
+    // console.log(this.asideStatus)
   },
   methods:{
     fFullScreen(){    //全屏事件
@@ -83,7 +87,7 @@ export default {
           this.$router.push({path:'/lock'})
         break;
         case 'logout':   //退出系统
-          this.$http.post('http://10.21.40.155:3000/logout',{withCredentials : true}).then(res=>{
+          this.$http.post('http://10.21.40.155:3000/logout').then(res=>{
             if(res.data.code===200){
               this.$message({
                 showClose:true,
@@ -99,12 +103,6 @@ export default {
                 type:'error'
               })
             }
-          }).catch(err=>{
-            this.$message({
-                showClose:true,
-                message:'网络请求失败',
-                type:'error'
-              })
           })
         break;
       }
@@ -112,7 +110,7 @@ export default {
     changeAside(){
       this.asideStatus=!this.asideStatus;
       if(this.asideStatus){
-        console.log(1)
+        // console.log(1)
         bus.$emit('changeStatus',true)
         window.localStorage.setItem('asideStatus',true)
       }else{

@@ -5,12 +5,14 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import Mainless from './assets/main.less';
 import axios from 'axios';
+import Icon from 'vue-svg-icon/Icon.vue';
 
 
 axios.defaults.withCredentials=true;
 Vue.prototype.$http=axios;
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
+Vue.component('icon', Icon); 
 
 
 //axios拦截，请求响应

@@ -75,7 +75,14 @@ export default {
         this.bMenuIndex='1';
     }
     this.bAsideStatus=window.localStorage.getItem('asideStatus');
-    this.bAsideStatus=this.bAsideStatus==='false'?false:true;
+    // console.log(this.bAsideStatus)
+    if(this.bAsideStatus===null){
+      this.bAsideStatus=false;
+    }else{
+      // this.bAsideStatus=true;
+      this.bAsideStatus=this.bAsideStatus==='false'?false:true;
+    }
+    console.log(this.b)
     if(this.bAsideStatus){
       this.asideStyle=65;
     }else{
