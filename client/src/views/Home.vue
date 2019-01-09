@@ -1,9 +1,6 @@
 <template>
   <div class="home">
    <Header></Header>
-   <!-- <section>
-     <Aside />
-   </section> -->
    <el-container>
      <Aside />
      <el-main>

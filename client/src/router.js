@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
-import Login from './views/Login.vue'
-import Lock from './views/Lock.vue'
-import Main from './components/Main.vue'
-import Test from './views/Test.vue'
-import RoomInfor from './views/RoomInformation.vue'
-import History from './views/History.vue'
-import Statistics from './views/Statistics.vue';
+// import Home from './views/Home.vue'
+// import Login from './views/Login.vue'
+// import Lock from './views/Lock.vue'
+// import Main from './components/Main.vue'
+// import Test from './views/Test.vue'
+// import RoomInfor from './views/RoomInformation.vue'
+// import History from './views/History.vue'
+// import Statistics from './views/Statistics.vue';
 
 Vue.use(Router)
 
@@ -15,7 +15,7 @@ const routes=[
   {
     path: '/',
     name: 'home',
-    component: Home,
+    component: resolve => require(['./views/Home.vue'], resolve),
     meta:{
       requireAuth: true
     },
@@ -23,7 +23,7 @@ const routes=[
       {
         path: '/',
         name: 'Main',
-        component: Main,
+        component: resolve => require(['./components/Main.vue'], resolve),
         meta:{
           requireAuth: true
         },
@@ -31,7 +31,7 @@ const routes=[
       {
         path: '/test',
         name: 'Test',
-        component: Test,
+        component: resolve => require(['./views/Test.vue'], resolve),
         meta:{
           requireAuth: true
         },
@@ -39,7 +39,7 @@ const routes=[
       {
         path: '/roomInfor',
         name: 'RoomInfor',
-        component: RoomInfor,
+        component: resolve => require(['./views/RoomInformation.vue'], resolve),
         meta:{
           requireAuth: true
         },
@@ -47,7 +47,7 @@ const routes=[
       {
         path: '/history',
         name: 'History',
-        component: History,
+        component: resolve => require(['./views/History.vue'], resolve),
         meta:{
           requireAuth: true
         },
@@ -55,7 +55,7 @@ const routes=[
       {
         path: '/statistics',
         name: 'Statistics',
-        component: Statistics,
+        component: resolve => require(['./views/Statistics.vue'], resolve),
         meta:{
           requireAuth: true
         },
@@ -65,14 +65,13 @@ const routes=[
   {
     path: '/login',
     name: 'Login',
-    component: Login,
+    component: resolve => require(['./views/Login.vue'], resolve),
    
   },
   {
     path: '/lock',
     name: 'Lock',
-    component: Lock,
-    
+    component: resolve => require(['./views/Lock.vue'], resolve),
   },
   
 ]

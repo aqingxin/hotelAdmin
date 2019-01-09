@@ -21,6 +21,8 @@ var getHistory=require('./config/getHistory');
 var searchHistory=require('./config/searchHistory');
 var getStatistic=require('./config/getStatistics');
 var getHomeData=require('./config/getHomeData');
+var addLog=require('./config/log');
+var getLog=require('./config/getLog');
 
 var connection=require('./config/connectionDb');  //数据库连接
 
@@ -67,7 +69,7 @@ app.use(function(req,res,next){   //对所有的前端请求进行判断有无�
     for(var i=0;i<arr.length;i++){
       arr[i]=arr[i].split('?')[0];
     }
-    if(arr[1]==='login'||arr[1]==='modifyPassword'||arr[1]==='sendMail'||arr[1]==='unlock'){
+    if(arr[1]==='login'||arr[1]==='modifyPassword'||arr[1]==='sendMail'||arr[1]==='unlock'||arr[1]==='deleteRoom'){
       next();
     }else{
       res.status(401).json({code:210,msg:'未登录'})
@@ -94,8 +96,13 @@ app.post('/login',function(req,res){
         if(hashPassword!==result[0].user_password){
           res.status(202).json({code:202,msg:'密码错误'})
         }else{
-          req.session.username=req.body.username;
-          res.status(200).json({code:200,msg:'登录成功',token:new Date().getTime()})
+          addLog.addLog('管理员admin登录了系统').then(data=>{
+            req.session.username=req.body.username;
+            res.status(200).json({code:200,msg:'登录成功',token:new Date().getTime()})
+            // console.log(true)
+          }).catch(err=>{
+            res.status(203).json({code:203,msg:'登录失败'})
+          })
         }
       }
     }
@@ -125,3 +132,4 @@ app.get('/getHistory',getHistory);   //获取历史记录
 app.post('/searchHistory',searchHistory);   //搜索历史记录
 app.get('/getStatistic',getStatistic);     //获取收入统计数据
 app.get('/getHomeData',getHomeData);
+app.get('/getLog',getLog);

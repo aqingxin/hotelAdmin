@@ -1,11 +1,11 @@
 <template>
   <el-col :sm="24" :lg="12">
-    <el-card shadow="hover" class="system-report">
+    <el-card shadow="hover" class="system-report surplus">
       <div slot="header" class="report-header">
-        <span class="">各类型房间剩余</span>
+        <span>各类型房间剩余</span>
       </div>
       <div class="progress-group" v-if="show===true">
-        <el-progress :width="120" type="circle" :percentage="100-100*(surplus[0]/allRoom[0])" status="text" color="#556D84">单人房{{allRoom[0]-surplus[0]}}</el-progress>
+        <el-progress :width="120" type="circle" :percentage="100-100*(surplus[0]/allRoom[0])" status="text" color="#556D84">单人间{{allRoom[0]-surplus[0]}}</el-progress>
         <el-progress :width="120" type="circle" :percentage="100-100*(surplus[1]/allRoom[1])" status="text" color="#41B883">双人间{{allRoom[1]-surplus[1]}}</el-progress>
         <el-progress :width="120" type="circle" :percentage="100-100*(surplus[2]/allRoom[2])" status="text" color="#9AB7E0">三人间{{allRoom[2]-surplus[2]}}</el-progress>
         <el-progress :width="120" type="circle" :percentage="100-100*(surplus[3]/allRoom[3])" status="text" color="#F7C94D">商务间{{allRoom[3]-surplus[3]}}</el-progress>
@@ -68,7 +68,7 @@ export default {
           }
         }
         this.show=true;
-        console.log(this.allRoom,this.surplus)
+        // console.log(this.allRoom,this.surplus)
       })
     }
   }
@@ -84,5 +84,9 @@ export default {
     display: flex;
     justify-content: space-around;
     align-items: center;
+  }
+  .report-header {
+    font-weight: bold;
+    color: #409EFF;
   }
 </style>

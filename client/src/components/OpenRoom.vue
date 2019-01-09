@@ -78,7 +78,7 @@
           label="操作"
           align="center">
           <template slot-scope="scope">
-            <el-button size="mini" >加时</el-button>
+            <el-button size="mini" :disabled="scope.row.room_status===1">开房</el-button>
             <el-button size="mini" @click="checkOut(scope.row)">退房</el-button>
             <el-button size="mini" @click="changeRoom(scope.row.room_num,scope.row.id)">换房</el-button>
           </template>

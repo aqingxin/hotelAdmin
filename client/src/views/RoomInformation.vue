@@ -64,7 +64,7 @@
           label="操作">
           <template slot-scope="scope">
             <el-button type="primary" size="mini" @click="showForm('modify',scope.row)">修改</el-button>
-            <el-button type="danger" size="mini" @click="deleteRoom(scope.row.id)">删除</el-button>
+            <el-button type="danger" size="mini" @click="deleteRoom(scope.row.id,scope.row.room_num)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -138,16 +138,17 @@ export default {
         }
       })
     },
-    deleteRoom(roomId){
+    deleteRoom(roomId,room_num){
       this.$confirm('此操作将永久删除该房间信息, 是否继续?', '操作提示', {   //点击删除按钮时先弹框警告
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         var parmas=new URLSearchParams();
-        parmas.append('roomId',roomId)
+        parmas.append('roomId',roomId);
+        // parmas.append('room_num',room_num)
 
-        this.$http.delete('http://10.21.40.155:3000/deleteRoom?roomId='+roomId,{withCredentials : true},{
+        this.$http.delete('http://10.21.40.155:3000/deleteRoom?roomId='+roomId+'&room_num='+room_num,{withCredentials : true},{
           header:{
             emulateJSON:true
           }

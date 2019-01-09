@@ -1,6 +1,9 @@
 <template>
   <el-col :sm="24" :lg="18">
-    <el-card shadow="hover" class="home-log">
+    <el-card shadow="hover" class="home-log seven-days">
+      <!-- <div slot="header" class="todo-header">
+        <span class="header-title">近7天收入走势</span>
+      </div> -->
       <div id="show" ref="show" style='width：100%;height:346px;'></div>
     </el-card>
   </el-col>
@@ -35,7 +38,7 @@ export default {
   methods:{
     getStatistics(){
       this.$http.get('http://10.21.40.155:3000/getStatistic').then(res=>{
-        console.log(res)
+        // console.log(res)
 
         //需要对同一天的记录的进行处理以展示到echarts图表
         if(res!=undefined){
@@ -44,7 +47,7 @@ export default {
         // let arr=res.data.msg;    
         var tmpObj={};
         var tmpRoomType={};
-        console.log(arr)
+        // console.log(arr)
         for(var i in arr) {    //对同一天的数据进行处理
           var key=arr[i].expire_date.substring(0,10);
           if(tmpObj[key]){   //如果key值存在，则对同一天的盈利房费进行相加
@@ -123,7 +126,7 @@ export default {
         series: [{
             name: '收入',
             type: 'line',
-            center:['60%','50%'],
+            center:['60%','20%'],
             data: _this.seriesData,
             itemStyle:{
               color:'#37A2DA'
@@ -140,5 +143,12 @@ export default {
 <style lang="less" scoped>
   .home-log {
     margin-top: 15px;
+  }
+  .header-title {
+    font-weight: bold;
+    color: #409EFF;
+  }
+  .el-card__body {
+    padding-top: 0;
   }
 </style>

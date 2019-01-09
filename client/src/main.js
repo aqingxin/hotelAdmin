@@ -29,7 +29,7 @@ axios.interceptors.response.use(
           type:'error',
         })
         window.localStorage.removeItem('loginToken')
-        router.push('/login')   
+        router.push('/login')
       }else{    //其他情况下
         ElementUI.Message({
           showClose:true,

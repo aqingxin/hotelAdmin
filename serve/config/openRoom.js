@@ -1,4 +1,5 @@
 var connection=require('./connectionDb');
+var log=require('./log');
 
 var openRoom=function(req,res){
   let insertSql="INSERT INTO `openroom` (room_id,name,gender,certificates,open_date,expire_date,collect_money,deposit) VALUES (?,?,?,?,?,?,?,?)";
@@ -15,7 +16,19 @@ var openRoom=function(req,res){
           console.log(error);
           res.status(210).json({code:210,msg:error});
         }else{
-          res.status(200).json({code:200,msg:'开房成功'});
+          connection.query('SELECT * FROM room WHERE id=?',[req.body.roomId],function(errors,getRes){
+            if(errors){
+              console.log(errors);
+              res.status(210).json({code:210,msg:errors});
+            }else{
+              log.addLog(`管理员admin开出了房间"${getRes[0].room_num}"`).then(data=>{
+                res.status(200).json({code:200,msg:'开房成功'});
+              }).catch(errorss=>{
+                console.log(errorss);
+                res.status(210).json({code:210,msg:errorss});
+              })
+            }
+          })
         }
       })
     }
