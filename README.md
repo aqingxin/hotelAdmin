@@ -17,4 +17,10 @@
 - 历史记录查询
 - 收入统计汇总
 
-![][https://github.com/aqingxin/blobImg/blob/master/TIM%E6%88%AA%E5%9B%BE20190124093707.png]
+<img src="https://github.com/aqingxin/blobImg/blob/master/TIM%E6%88%AA%E5%9B%BE20190124093707.png">
+<img src="https://github.com/aqingxin/blobImg/blob/master/TIM%E6%88%AA%E5%9B%BE20190124093727.png">
+<img src="https://github.com/aqingxin/blobImg/blob/master/TIM%E6%88%AA%E5%9B%BE20190124093754.png">
+<img src="https://github.com/aqingxin/blobImg/blob/master/TIM%E6%88%AA%E5%9B%BE20190124093807.png">
+<img src="https://github.com/aqingxin/blobImg/blob/master/TIM%E6%88%AA%E5%9B%BE20190124093835.png">
+<img src="https://github.com/aqingxin/blobImg/blob/master/TIM%E6%88%AA%E5%9B%BE20190124093850.png">
+<img src="https://github.com/aqingxin/blobImg/blob/master/TIM%E6%88%AA%E5%9B%BE20190124093900.png">
