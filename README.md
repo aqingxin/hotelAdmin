@@ -16,3 +16,5 @@
 - 新增房间信息、修改房间信息、删除房间信息
 - 历史记录查询
 - 收入统计汇总
+
+![][https://github.com/aqingxin/blobImg/blob/master/TIM%E6%88%AA%E5%9B%BE20190124093707.png]
