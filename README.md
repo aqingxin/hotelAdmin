@@ -1,6 +1,6 @@
 # hotelAdmin
 这是一款使用了Vue框架写的酒店前台管理系统。
-## 现对该项目进行重构，最新的重构项目地址：[项目重构地址]:https://github.com/aqingxin/hoteladmin_restructure
+## 现对该项目进行重构，最新的重构项目地址：[项目重构地址]:(https://github.com/aqingxin/hoteladmin_restructure)，欢迎star
 ## 技术栈
 ### 前端:Vue+Axios+ElementUi
 ### 后端:Node框架express
