@@ -1,12 +1,12 @@
 var nodemailer=require('nodemailer');   //发送邮件模块
 
 var config = {    //定义配置
-  host: 'smtp.163.com',
+  host: '邮箱服务商地址',
   port: 465,
   secure: true,
   auth: {
-    user:'13071581420@163.com',
-    pass:'Ss1607440679'
+    user:'自己的邮箱地址',
+    pass:'授权密码'
   }
 }
 var transpoeter=nodemailer.createTransport(config);
